@@ -21,6 +21,9 @@ onMounted(() => {
                 useBatchedMesh: false,
                 errorTarget: 20,
             });
+
+            // @ts-ignore
+            window.viewer = viewer.value;
         }
     });
 });

@@ -17,6 +17,7 @@ import {
     WebGLRenderer,
     PerspectiveCamera,
     OrthographicCamera,
+    Color,
 } from "three";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 // @ts-ignore
@@ -26,6 +27,17 @@ interface ViewerOptions {
     useBatchedMesh?: boolean;
     displayTopoLines?: false;
     errorTarget?: number;
+    topoLinesOptions?: TopoLinesOptions;
+}
+
+interface TopoLinesOptions {
+    display: boolean;
+    projection: string;
+    thickness: number;
+    topoColor: Color;
+    topoOpacity: number;
+    cartoColor: Color;
+    cartoOpacity: number;
 }
 
 interface CameraChangeEvent {
@@ -41,9 +53,18 @@ class Viewer {
     private _tiles: any;
     private _controls: any;
     private _useBatchedMesh: boolean = false;
-    private _displayTopoLines: boolean = false;
     private _errorTarget: number = 20;
     private _canvas: HTMLCanvasElement;
+    private _topoLinesOptions: TopoLinesOptions = {
+        display: false,
+        projection: "ellipsoid",
+        thickness: 1,
+        topoColor: new Color("#fff"),
+        topoOpacity: 0.5,
+        // 坐标网格线
+        cartoColor: new Color("#fff"),
+        cartoOpacity: 0.5,
+    };
 
     constructor(dom: HTMLElement, options: ViewerOptions) {
         this._initOptions(options);
@@ -103,10 +124,118 @@ class Viewer {
         this._animate();
     }
 
+    /**
+     * 获取或设置是否显示地形等高线
+     *
+     * @memberof Viewer
+     */
+    get displayTopoLines() {
+        return this._topoLinesOptions.display;
+    }
+
+    /**
+     * 设置是否显示地形等高线
+     *
+     * @memberof Viewer
+     */
+    set displayTopoLines(value: boolean) {
+        this._topoLinesOptions.display = value;
+        const plugin = this._tiles.getPluginByName("TOPO_LINES_PLUGIN");
+        plugin.topoOpacity = value ? this._topoLinesOptions.topoOpacity : 0;
+        plugin.cartoOpacity = value ? this._topoLinesOptions.cartoOpacity : 0;
+    }
+
+    /**
+     * 获取或设置地形等高线的厚度
+     *
+     * @memberof Viewer
+     */
+    get topoLineTopoColor() {
+        return this._topoLinesOptions.topoColor;
+    }
+
+    /**
+     * 获取或设置地形等高线的颜色
+     *
+     * @memberof Viewer
+     */
+    set topoLineTopoColor(value: Color) {
+        this._topoLinesOptions.topoColor = value;
+        const plugin = this._tiles.getPluginByName("TOPO_LINES_PLUGIN");
+        plugin.topoColor = value;
+    }
+
+    /**
+     * 获取或设置地形等高线的颜色
+     *
+     * @memberof Viewer
+     */
+    get topoLineCartoColor() {
+        return this._topoLinesOptions.cartoColor;
+    }
+
+    /**
+     * 获取或设置地形等高线的颜色
+     *
+     * @memberof Viewer
+     */
+    set topoLineCartoColor(value: Color) {
+        this._topoLinesOptions.cartoColor = value;
+        const plugin = this._tiles.getPluginByName("TOPO_LINES_PLUGIN");
+        plugin.cartoColor = value;
+    }
+
+    /**
+     * 获取或设置地形等高线的透明度
+     *
+     * @memberof Viewer
+     */
+    get topoLinesOpacity() {
+        const plugin = this._tiles.getPluginByName("TOPO_LINES_PLUGIN");
+        return plugin.topoOpacity;
+    }
+
+    /**
+     * 设置地形等高线的透明度
+     *
+     * @memberof Viewer
+     */
+    set topoLinesOpacity(value: number) {
+        const plugin = this._tiles.getPluginByName("TOPO_LINES_PLUGIN");
+        plugin.topoOpacity = value;
+        plugin.cartoOpacity = value;
+    }
+
+    /**
+     * 获取或设置地形等高线的投影方式
+     *
+     * @memberof Viewer
+     */
+    get topoLinesThickness() {
+        return this._topoLinesOptions.thickness;
+    }
+
+    /**
+     * 设置地形等高线的厚度
+     *
+     * @memberof Viewer
+     */
+    set topoLinesThickness(value: number) {
+        this._topoLinesOptions.thickness = value;
+        const plugin = this._tiles.getPluginByName("TOPO_LINES_PLUGIN");
+        plugin.thickness = value;
+    }
+
     _initOptions(options: ViewerOptions) {
         this._useBatchedMesh = options.useBatchedMesh || false;
-        this._displayTopoLines = options.displayTopoLines || false;
         this._errorTarget = options.errorTarget || 20;
+
+        if (options.topoLinesOptions) {
+            this._topoLinesOptions = {
+                ...this._topoLinesOptions,
+                ...options.topoLinesOptions,
+            };
+        }
     }
 
     _reinstantiateTiles() {
@@ -133,7 +262,7 @@ class Viewer {
         this._tiles.registerPlugin(new UnloadTilesPlugin());
         // 平滑效果
         this._tiles.registerPlugin(new TilesFadePlugin());
-        // 地形可视化插件
+        // 地形等高线可视化插件
         this._tiles.registerPlugin(
             new TopoLinesPlugin({ projection: "ellipsoid" })
         );
@@ -202,8 +331,14 @@ class Viewer {
         this._tiles.setCamera(camera);
 
         const plugin = this._tiles.getPluginByName("TOPO_LINES_PLUGIN");
-        plugin.topoOpacity = this._displayTopoLines ? 0.5 : 0;
-        plugin.cartoOpacity = this._displayTopoLines ? 0.5 : 0;
+        plugin.topoOpacity = this._topoLinesOptions.display
+            ? this._topoLinesOptions.topoOpacity
+            : 0;
+        plugin.topoColor = this._topoLinesOptions.topoColor;
+        plugin.cartoOpacity = this._topoLinesOptions.display
+            ? this._topoLinesOptions.cartoOpacity
+            : 0;
+        plugin.cartoColor = this._topoLinesOptions.cartoColor;
 
         // update tiles
         camera.updateMatrixWorld();

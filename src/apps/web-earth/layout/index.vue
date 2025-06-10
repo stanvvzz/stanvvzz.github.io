@@ -93,6 +93,7 @@ const handleCollapse = (val: boolean) => {
 .main-section {
     flex: 1;
     display: flex;
+    min-height: 0;
 }
 
 .layout-sider {
@@ -107,6 +108,7 @@ const handleCollapse = (val: boolean) => {
     overflow: auto;
     background-color: #f5f5f5;
     overflow: hidden;
+    min-height: 0;
 }
 
 // 默认样式
