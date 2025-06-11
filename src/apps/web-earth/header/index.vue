@@ -4,18 +4,12 @@
             <a-button-group>
                 <a-button
                     type="text"
-                    @click="handleLayerManage"
+                    :class="{
+                        active: siderStore.activeSiderPanel === 'topoLines',
+                    }"
+                    @click="handleTopoLines"
                 >
-                    <template #icon><IconLayers /></template>
-                    图层管理
-                </a-button>
-
-                <a-button
-                    type="text"
-                    @click="handleViewMode"
-                >
-                    <template #icon><IconEye /></template>
-                    视图模式
+                    地形等高线
                 </a-button>
             </a-button-group>
         </div>
@@ -65,21 +59,17 @@
 </template>
 
 <script setup lang="ts">
-import IconLayers from "@arco-design/web-vue/es/icon/icon-layers";
-import IconEye from "@arco-design/web-vue/es/icon/icon-eye";
 import IconSearch from "@arco-design/web-vue/es/icon/icon-search";
 import IconSettings from "@arco-design/web-vue/es/icon/icon-settings";
 import IconUser from "@arco-design/web-vue/es/icon/icon-user";
 // 全屏组件
 import FullscreenButton from "@/components/common/FullscreenButton/index.vue";
+import { useSiderStore } from "@/stores/SiderStore/index.ts";
 
-// 事件处理函数
-const handleLayerManage = () => {
-    console.log("图层管理");
-};
+const siderStore = useSiderStore();
 
-const handleViewMode = () => {
-    console.log("视图模式");
+const handleTopoLines = (): void => {
+    siderStore.toggleSiderPanel("topoLines");
 };
 
 const handleSearch = () => {
@@ -124,6 +114,12 @@ const onFullscreenError = (error: Error) => {
             &:hover {
                 color: #165dff;
                 background-color: rgba(22, 93, 255, 0.08);
+            }
+
+            &.active {
+                color: #165dff;
+                background-color: rgba(22, 93, 255, 0.15);
+                font-weight: 500;
             }
         }
     }

@@ -9,17 +9,19 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "3d-tiles-renderer": "^0.4.9",
     "@arco-design/web-vue": "^2.57.0",
     "@arco-plugins/vite-vue": "^1.4.5",
     "@types/three": "^0.176.0",
+    "3d-tiles-renderer": "^0.4.9",
     "pina": "^0.20.2204228",
+    "pinia": "^3.0.3",
     "route": "^0.2.5",
     "three": "^0.176.0",
     "vue": "^3.5.13",
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
+    "@types/node": "^24.0.0",
     "@vitejs/plugin-vue": "^5.2.3",
     "@vue/tsconfig": "^0.7.0",
     "less": "^4.3.0",
