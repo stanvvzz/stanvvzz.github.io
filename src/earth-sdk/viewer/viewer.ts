@@ -211,6 +211,26 @@ class Viewer {
      *
      * @memberof Viewer
      */
+    get topoLinesCartoOpacity() {
+        const plugin = this._tiles.getPluginByName("TOPO_LINES_PLUGIN");
+        return plugin.cartoOpacity;
+    }
+
+    /**
+     * 设置地形等高线的透明度
+     *
+     * @memberof Viewer
+     */
+    set topoLinesCartoOpacity(value: number) {
+        const plugin = this._tiles.getPluginByName("TOPO_LINES_PLUGIN");
+        plugin.cartoOpacity = value;
+    }
+
+    /**
+     * 获取或设置地形等高线的投影方式
+     *
+     * @memberof Viewer
+     */
     get topoLinesThickness() {
         return this._topoLinesOptions.thickness;
     }
