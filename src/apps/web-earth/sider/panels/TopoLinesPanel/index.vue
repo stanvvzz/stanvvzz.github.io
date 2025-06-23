@@ -247,12 +247,7 @@ const handleCartoOpacityChange = (): void => {
     const viewer = viewerStore.getViewer();
     if (!viewer || !viewerStore.isViewerReady()) return;
 
-    try {
-        viewer.topoLinesCartoOpacity = config.cartoOpacity;
-    } catch (error) {
-        console.error("设置坐标网格透明度失败:", error);
-        Message.error("设置坐标网格透明度失败");
-    }
+    viewer.topoLinesCartoOpacity = config.cartoOpacity;
 };
 
 // 重置设置

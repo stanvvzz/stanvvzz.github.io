@@ -1,8 +1,8 @@
 // Adjusts the provided material to support fading in and out using a bayer pattern. Providing a "previous"
 
-import { Color, Matrix4, Vector2, Vector3 } from 'three';
+import { Color, Matrix4, Vector2, Vector3 } from "three";
 
-const ELLIPSOID_FUNC = /* glsl */`
+const ELLIPSOID_FUNC = /* glsl */ `
 
 	vec3 getPositionToSurfacePoint( vec3 radius, vec3 pos ) {
 
@@ -85,7 +85,7 @@ const ELLIPSOID_FUNC = /* glsl */`
 	}
 `;
 
-const MATH_FUNC = /* glsl */`
+const MATH_FUNC = /* glsl */ `
 	float log10( float v ) {
 
 		return log( v ) / log( 10.0 );
@@ -110,54 +110,51 @@ const MATH_FUNC = /* glsl */`
 `;
 
 // before compile can be used to chain shader adjustments. Returns the added uniforms used for fading.
-export function wrapTopoLineMaterial( material, previousOnBeforeCompile ) {
+export function wrapTopoLineMaterial(material, previousOnBeforeCompile) {
+    const params = {
+        resolution: { value: new Vector2() },
+        pixelRatio: { value: 1 },
 
-	const params = {
-		resolution: { value: new Vector2() },
-		pixelRatio: { value: 1 },
+        ellipsoid: { value: new Vector3() },
+        frame: { value: new Matrix4() },
 
-		ellipsoid: { value: new Vector3() },
-		frame: { value: new Matrix4() },
+        topoColor: { value: new Color() },
+        topoOpacity: { value: 0.5 },
+        topoLimit: { value: new Vector2(0, 1e10) },
+        topoFadeLimit: { value: new Vector2(0, 1e10) },
 
-		topoColor: { value: new Color() },
-		topoOpacity: { value: 0.5 },
-		topoLimit: { value: new Vector2( 0, 1e10 ) },
-		topoFadeLimit: { value: new Vector2( 0, 1e10 ) },
+        cartoColor: { value: new Color() },
+        cartoOpacity: { value: 0.5 },
+        cartoLimit: { value: new Vector2(0, 1e10) },
+        cartoFadeLimit: { value: new Vector2(0, 1e10) },
 
-		cartoColor: { value: new Color() },
-		cartoOpacity: { value: 0.5 },
-		cartoLimit: { value: new Vector2( 0, 1e10 ) },
-		cartoFadeLimit: { value: new Vector2( 0, 1e10 ) },
+        thickness: { value: 1.0 },
+    };
 
-		thickness: { value: 1.0 },
-	};
+    material.defines = {
+        ...(material.defines || {}),
+        USE_TOPO_ELLIPSOID: 0,
+        USE_TOPO_LINES: 1,
+    };
 
-	material.defines = {
-		...( material.defines || {} ),
-		USE_TOPO_ELLIPSOID: 0,
-		USE_TOPO_LINES: 1,
-	};
+    material.onBeforeCompile = (shader) => {
+        addWorldPosition(shader);
 
-	material.onBeforeCompile = shader => {
+        if (previousOnBeforeCompile) {
+            previousOnBeforeCompile(shader);
+        }
 
-		addWorldPosition( shader );
+        shader.uniforms = {
+            ...shader.uniforms,
+            ...params,
+        };
 
-		if ( previousOnBeforeCompile ) {
+        shader.vertexShader = shader.vertexShader
+            .replace(
+                /void main\(/,
+                (value) => /* glsl */ `
 
-			previousOnBeforeCompile( shader );
-
-		}
-
-		shader.uniforms = {
-			...shader.uniforms,
-			...params,
-		};
-
-		shader.vertexShader = shader
-			.vertexShader
-			.replace( /void main\(/, value => /* glsl */`
-
-				${ ELLIPSOID_FUNC }
+				${ELLIPSOID_FUNC}
 
 				#if USE_TOPO_ELLIPSOID && USE_TOPO_LINES
 
@@ -167,12 +164,15 @@ export function wrapTopoLineMaterial( material, previousOnBeforeCompile ) {
 
 				#endif
 
-				${ value }
+				${value}
 
-			` )
-			.replace( /wPosition[^\n]+;/, value => /* glsl */`
+			`
+            )
+            .replace(
+                /wPosition[^\n]+;/,
+                (value) => /* glsl */ `
 
-				${ value }
+				${value}
 
 				#if USE_TOPO_ELLIPSOID && USE_TOPO_LINES
 				{
@@ -193,12 +193,13 @@ export function wrapTopoLineMaterial( material, previousOnBeforeCompile ) {
 				}
 				#endif
 
-			` );
+			`
+            );
 
-
-		shader.fragmentShader = shader
-			.fragmentShader
-			.replace( /void main\(/, value => /* glsl */`
+        shader.fragmentShader = shader.fragmentShader
+            .replace(
+                /void main\(/,
+                (value) => /* glsl */ `
 
 				#if USE_TOPO_ELLIPSOID && USE_TOPO_LINES
 
@@ -227,7 +228,7 @@ export function wrapTopoLineMaterial( material, previousOnBeforeCompile ) {
 
 					uniform mat4 projectionMatrix;
 
-					${ MATH_FUNC }
+					${MATH_FUNC}
 
 				#endif
 
@@ -261,11 +262,14 @@ export function wrapTopoLineMaterial( material, previousOnBeforeCompile ) {
 
 				}
 
-				${ value }
-			` )
-			.replace( /#include <color_fragment>/, value => /* glsl */`
+				${value}
+			`
+            )
+            .replace(
+                /#include <color_fragment>/,
+                (value) => /* glsl */ `
 
-				${ value }
+				${value}
 
 				#if USE_TOPO_LINES
 				{
@@ -383,39 +387,33 @@ export function wrapTopoLineMaterial( material, previousOnBeforeCompile ) {
 				}
 				#endif
 
-			` );
+			`
+            );
+    };
 
-	};
-
-	return params;
-
+    return params;
 }
 
-function addWorldPosition( shader ) {
+function addWorldPosition(shader) {
+    if (/varying\s+vec3\s+wPosition/.test(shader.vertexShader)) {
+        return;
+    }
 
-	if ( /varying\s+vec3\s+wPosition/.test( shader.vertexShader ) ) {
-
-		return;
-
-	}
-
-	shader.vertexShader = /* glsl */`
+    shader.vertexShader = /* glsl */ `
 			varying vec3 wPosition;
-			${ shader.vertexShader }
-		`
-		.replace(
-			/#include <project_vertex>/,
-			v => /* glsl */`
-				${ v }
+			${shader.vertexShader}
+		`.replace(
+        /#include <project_vertex>/,
+        (v) => /* glsl */ `
+				${v}
 				wPosition = ( modelMatrix * vec4( transformed, 1.0 ) ).xyz;
-			`,
-		);
+			`
+    );
 
-	shader.fragmentShader = /* glsl */`
+    shader.fragmentShader = /* glsl */ `
 		varying vec3 wPosition;
-		${ shader.fragmentShader }
+		${shader.fragmentShader}
 	`;
 
-	return shader;
-
+    return shader;
 }

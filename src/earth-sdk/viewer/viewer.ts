@@ -352,13 +352,13 @@ class Viewer {
 
         const plugin = this._tiles.getPluginByName("TOPO_LINES_PLUGIN");
         plugin.topoOpacity = this._topoLinesOptions.display
-            ? this._topoLinesOptions.topoOpacity
+            ? this.topoLinesOpacity
             : 0;
-        plugin.topoColor = this._topoLinesOptions.topoColor;
+        plugin.topoColor = this.topoLineTopoColor;
         plugin.cartoOpacity = this._topoLinesOptions.display
-            ? this._topoLinesOptions.cartoOpacity
+            ? this.topoLinesCartoOpacity
             : 0;
-        plugin.cartoColor = this._topoLinesOptions.cartoColor;
+        plugin.cartoColor = this.topoLineCartoColor;
 
         // update tiles
         camera.updateMatrixWorld();
