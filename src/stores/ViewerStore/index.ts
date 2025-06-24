@@ -68,7 +68,7 @@ export const useViewerStore = defineStore("viewer", () => {
             setTimeout(() => {
                 clearInterval(checkInterval);
                 reject(new Error("Viewer 初始化超时"));
-            }, 10000);
+            }, 20000);
         });
     };
 

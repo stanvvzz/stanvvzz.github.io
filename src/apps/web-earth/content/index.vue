@@ -4,12 +4,15 @@
             class="earth-container"
             ref="earthContainer"
         ></div>
+
+        <LatLonBox />
     </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, nextTick } from "vue";
 import { useViewerStore } from "@/stores/ViewerStore/index";
+import LatLonBox from "@/apps/web-earth/components/common/LatLonBox/index.vue";
 
 const earthContainer = ref<HTMLElement | null>(null);
 const viewerStore = useViewerStore();
@@ -38,6 +41,7 @@ onMounted(() => {
     height: 100%;
     display: flex;
     flex-direction: column;
+    position: relative;
 
     .earth-container {
         flex: 1;

@@ -4,6 +4,7 @@ import { Color, Matrix4, Vector2, Vector3 } from "three";
 
 const ELLIPSOID_FUNC = /* glsl */ `
 
+	// 空间点到椭球体表面最近投影点的计算
 	vec3 getPositionToSurfacePoint( vec3 radius, vec3 pos ) {
 
 		float EPSILON12 = 1e-12;
@@ -11,26 +12,36 @@ const ELLIPSOID_FUNC = /* glsl */ `
 
 		// From Cesium function Ellipsoid.scaleToGeodeticSurface
 		// https://github.com/CesiumGS/cesium/blob/d11b746e5809ac115fcff65b7b0c6bdfe81dcf1c/packages/engine/Source/Core/scaleToGeodeticSurface.js#L25
+		// pow(x,y)
+		// x的y次幂
 		vec3 invRadiusSq = 1.0 / pow( radius, vec3( 2.0 ) );
 		vec3 pos2 = pos * pos * invRadiusSq;
 
 		// Compute the squared ellipsoid norm.
 		float squaredNorm = pos2.x + pos2.y + pos2.z;
+		// 将点投影到椭球体表面所需的缩放比例
 		float ratio = sqrt( 1.0 / squaredNorm );
 
 		// As an initial approximation, assume that the radial intersection is the projection point.
+		// 作为初步近似，假设径向交点就是投影点。
 		vec3 intersection = pos * ratio;
 		if ( squaredNorm < CENTER_EPS ) {
-
+			// 返回零向量，表示点在椭球体中心附近
 			return ratio > EPSILON12 ? vec3( 0.0 ) : intersection;
 
 		}
 
 		// Use the gradient at the intersection point in place of the true unit normal.
 		// The difference in magnitude will be absorbed in the multiplier.
+		// 在交点处使用梯度代替真实的单位法线。大小的差异将被乘数吸收。
+		// 隐式方程
+		// vec3(2x/a², 2y/b², 2z/c²)
+		// 梯度向量
 		vec3 gradient = intersection * invRadiusSq * 2.0;
 
 		// Compute the initial guess at the normal vector multiplier, lambda.
+		// 计算法向量乘数的初始猜测值 lambda。
+		// 牛顿迭代法中用于求解空间点到椭球体表面最近投影点的初始猜测值 lambda 的公式。
 		float lambda = ( 1.0 - ratio ) * length( pos ) / ( 0.5 * length( gradient ) );
 		float correction = 0.0;
 
@@ -92,8 +103,10 @@ const MATH_FUNC = /* glsl */ `
 
 	}
 
+	// 计算像素的偏导数
 	float fwidth2( float v ) {
 
+		// 偏导函数
 		float vdy = dFdy( v );
 		float vdx = dFdx( v );
 		return length( vec2( vdy, vdx ) );
@@ -131,6 +144,7 @@ export function wrapTopoLineMaterial(material, previousOnBeforeCompile) {
         thickness: { value: 1.0 },
     };
 
+    // 定义宏指令
     material.defines = {
         ...(material.defines || {}),
         USE_TOPO_ELLIPSOID: 0,
@@ -144,6 +158,7 @@ export function wrapTopoLineMaterial(material, previousOnBeforeCompile) {
             previousOnBeforeCompile(shader);
         }
 
+        // 将参数添加到着色器的 uniforms 中
         shader.uniforms = {
             ...shader.uniforms,
             ...params,
@@ -158,6 +173,8 @@ export function wrapTopoLineMaterial(material, previousOnBeforeCompile) {
 
 				#if USE_TOPO_ELLIPSOID && USE_TOPO_LINES
 
+					// 椭球体xyz三个半轴的长度
+					// ellipsoid = vec3(6378137.0, 6378137.0, 6356752.3)（WGS84 地球椭球参数）
 					uniform vec3 ellipsoid;
 					uniform mat4 frame;
 					varying vec4 vCartographic;
@@ -182,11 +199,17 @@ export function wrapTopoLineMaterial(material, previousOnBeforeCompile) {
 
 					// From Cesium function Ellipsoid.cartesianToCartographic
 					// https://github.com/CesiumGS/cesium/blob/665ec32e813d5d6fe906ec3e87187f6c38ed5e49/packages/engine/Source/Core/Ellipsoid.js#L463
+					// 计算表面点坐标
 					vec3 surfacePoint = getPositionToSurfacePoint( ellipsoid, localPosition );
+					// 计算表面法线
 					vec3 surfaceNormal = getPositionToNormal( ellipsoid, localPosition );
+
+					// 计算局部坐标系下的高度差
 					vec3 heightDelta = localPosition - surfacePoint;
+					// 计算高度值，使用符号函数来确保高度值的方向正确
 					float height = sign( dot( heightDelta, localPosition ) ) * length( heightDelta );
 
+					// 将经纬度和高度值存储到 vCartographic 中
 					vCartographic.xyz = surfaceNormal;
 					vCartographic.w = height;
 
@@ -232,6 +255,11 @@ export function wrapTopoLineMaterial(material, previousOnBeforeCompile) {
 
 				#endif
 
+				// value 世界坐标
+				// delta 世界坐标的像素变化量
+				// topoStep 顶点线的步长
+				// thickness 顶点线的厚度
+				// emphasisStride 强调线的步长
 				vec3 calculateTopoLines( vec3 value, vec3 delta, vec3 topoStep, vec2 thickness, vec3 emphasisStride ) {
 
 					vec3 halfTopoStep = topoStep * 0.5;
@@ -241,6 +269,8 @@ export function wrapTopoLineMaterial(material, previousOnBeforeCompile) {
 
 					// calculate the topography lines
 					// TODO: validate that these thresholds are being used correctly
+					// 计算线条的厚度
+					// 线条的厚度取决于当前线条的索引，如果是第一条线，则使用 thickness[0]，否则使用 thickness[1]
 					vec3 topoThickness = vec3(
 						lineIndex.x == 0.0 ? thickness[ 0 ] : thickness[ 1 ],
 						lineIndex.y == 0.0 ? thickness[ 0 ] : thickness[ 1 ],
@@ -368,7 +398,9 @@ export function wrapTopoLineMaterial(material, previousOnBeforeCompile) {
 
 					// calculate the topo line value
 					vec3 posDelta = max( fwidth2( pos ), 1e-7 );
+
 					vec3 topo0 = calculateTopoLines( pos, posDelta, step0, thickness0, emphasisStride0 );
+
 					vec3 topo1 = calculateTopoLines( pos, posDelta, step1, thickness1, emphasisStride1 );
 
 					// calculate the point to fade out the topographic lines based on the unclamped step

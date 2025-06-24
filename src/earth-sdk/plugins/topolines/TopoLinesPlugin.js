@@ -277,6 +277,7 @@ export class TopoLinesPlugin {
                         c.material,
                         c.material.onBeforeCompile
                     );
+
                     params.ellipsoid.value = tiles.ellipsoid.radius;
                     params.frame.value = tiles.group.matrixWorld;
 
@@ -307,6 +308,7 @@ export class TopoLinesPlugin {
 
         // Create an empty
         const resolutionSampleObject = new ResolutionSampler();
+        // 禁止视锥裁剪
         resolutionSampleObject.frustumCulled = false;
         resolutionSampleObject.onBeforeRender = (renderer) => {
             const renderTarget = renderer.getRenderTarget();

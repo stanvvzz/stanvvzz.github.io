@@ -1,4 +1,5 @@
 import {
+    WGS84_ELLIPSOID,
     GlobeControls,
     CameraTransitionManager,
     TilesRenderer,
@@ -18,6 +19,8 @@ import {
     PerspectiveCamera,
     OrthographicCamera,
     Color,
+    MathUtils,
+    EventDispatcher,
 } from "three";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 // @ts-ignore
@@ -45,7 +48,18 @@ interface CameraChangeEvent {
     prevCamera: PerspectiveCamera | OrthographicCamera;
 }
 
-class Viewer {
+interface CameraMoveEvent {
+    data: {
+        latitude: number;
+        longitude: number;
+        height: number;
+    };
+}
+interface ViewerEvents {
+    "camera-move": CameraMoveEvent;
+}
+
+class Viewer extends EventDispatcher<ViewerEvents> {
     private _dom: HTMLElement;
     private _renderer: WebGLRenderer;
     private _scene: Scene;
@@ -65,8 +79,18 @@ class Viewer {
         cartoColor: new Color("#fff"),
         cartoOpacity: 0.5,
     };
+    private _lastCameraPosition: {
+        lon: number;
+        lat: number;
+        height: number;
+    } | null = null;
+    private _latitude: number = 0;
+    private _longitude: number = 0;
+    private _height: number = 0;
 
     constructor(dom: HTMLElement, options: ViewerOptions) {
+        super();
+
         this._initOptions(options);
 
         // dom
@@ -122,6 +146,32 @@ class Viewer {
         this._resizeRendererToDisplaySize(this._renderer);
 
         this._animate();
+    }
+
+    get camera() {
+        return this._transition.camera;
+    }
+
+    get tiles() {
+        return this._tiles;
+    }
+
+    /**
+     * 摘取自官网demo
+     *
+     * @readonly
+     * @memberof Viewer
+     */
+    get latitude() {
+        return this._latitude;
+    }
+
+    get longitude() {
+        return this._longitude;
+    }
+
+    get height() {
+        return this._height;
     }
 
     /**
@@ -366,6 +416,41 @@ class Viewer {
         this._tiles.update();
 
         this._renderer.render(this._scene, camera);
+
+        // 计算经纬度以及高度
+        const mat = this.tiles.group.matrixWorld.clone().invert();
+        const vec = this.camera.position.clone().applyMatrix4(mat);
+        const res: { lat?: number; lon?: number; height?: number } = {};
+        WGS84_ELLIPSOID.getPositionToCartographic(vec, res);
+
+        const lat = (res.lat ?? 0) * MathUtils.RAD2DEG;
+        const lon = (res.lon ?? 0) * MathUtils.RAD2DEG;
+        const height = res.height ?? 0;
+
+        const newPos = { lat, lon, height };
+
+        this._latitude = lat;
+        this._longitude = lon;
+        this._height = height;
+
+        // 判断是否变化（可根据精度需求调整）
+        if (
+            !this._lastCameraPosition ||
+            Math.abs(this._lastCameraPosition.lat - lat) > 1e-6 ||
+            Math.abs(this._lastCameraPosition.lon - lon) > 1e-6 ||
+            Math.abs(this._lastCameraPosition.height - height) > 0.01
+        ) {
+            this._lastCameraPosition = newPos;
+
+            this.dispatchEvent({
+                type: "camera-move",
+                data: {
+                    latitude: lat,
+                    longitude: lon,
+                    height: height,
+                },
+            });
+        }
     }
 
     _resizeRendererToDisplaySize(renderer: WebGLRenderer) {
