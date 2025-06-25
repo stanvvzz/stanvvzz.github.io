@@ -26,6 +26,7 @@ import {
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 // @ts-ignore
 import { TopoLinesPlugin } from "../plugins/topolines/TopoLinesPlugin.js";
+import gsap from "gsap";
 
 interface ViewerOptions {
     useBatchedMesh?: boolean;
@@ -517,6 +518,55 @@ class Viewer extends EventDispatcher<ViewerEvents> {
         this._transition.perspectiveCamera.position.copy(newPostion);
         this._transition.perspectiveCamera.lookAt(0, 0, 0);
         this._transition.update();
+    }
+
+    flyTo(
+        position: { lat: number; lon: number; height: number },
+        options: { duration?: number; pitch?: number; heading?: number } = {}
+    ) {
+        const { lat, lon, height } = position;
+        const { duration = 2, pitch = -90, heading = 0 } = options;
+
+        // 目标世界坐标
+        const target = new Vector3();
+        WGS84_ELLIPSOID.getCartographicToPosition(
+            lat * MathUtils.DEG2RAD,
+            lon * MathUtils.DEG2RAD,
+            height,
+            target
+        );
+        // 应用地球旋转
+        target.applyAxisAngle(new Vector3(1, 0, 0), -Math.PI / 2);
+
+        // 当前相机
+        const camera = this._transition.perspectiveCamera;
+        const start = camera.position.clone();
+
+        // 动画
+        gsap.to(
+            {
+                x: start.x,
+                y: start.y,
+                z: start.z,
+            },
+            {
+                x: target.x,
+                y: target.y,
+                z: target.z,
+                duration,
+                ease: "power2.inOut",
+                onUpdate: function () {
+                    const obj = this.targets()[0];
+                    camera.position.set(obj.x, obj.y, obj.z);
+                    camera.lookAt(0, 0, 0);
+                },
+                onComplete: () => {
+                    // 设置pitch和heading
+                    // pitch为仰角，heading为方位角，单位为度
+                    camera.lookAt(0, 0, 0);
+                },
+            }
+        );
     }
 }
 
