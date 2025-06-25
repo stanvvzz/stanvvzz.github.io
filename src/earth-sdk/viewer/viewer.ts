@@ -14,6 +14,7 @@ import {
     CesiumIonAuthPlugin,
 } from "3d-tiles-renderer/plugins";
 import {
+    Vector3,
     Scene,
     WebGLRenderer,
     PerspectiveCamera,
@@ -58,6 +59,25 @@ interface CameraMoveEvent {
 interface ViewerEvents {
     "camera-move": CameraMoveEvent;
 }
+
+// 经纬度和高度的初始值
+// 这里使用北京的经纬度和一个高度值作为示例
+const BJLat = 39.9;
+const BJLon = 116.4;
+const BJHeight = 4000000;
+
+const BJPos = new Vector3();
+WGS84_ELLIPSOID.getCartographicToPosition(
+    BJLat * MathUtils.DEG2RAD,
+    BJLon * MathUtils.DEG2RAD,
+    BJHeight,
+    BJPos
+);
+
+// 因为three.js的坐标系是右手系，而WGS84椭球体的坐标系是左手系，所以需要将Y轴翻转
+BJPos.applyAxisAngle(new Vector3(1, 0, 0), -Math.PI / 2);
+
+console.log("BJPos", BJPos);
 
 class Viewer extends EventDispatcher<ViewerEvents> {
     private _dom: HTMLElement;
@@ -111,11 +131,7 @@ class Viewer extends EventDispatcher<ViewerEvents> {
             new PerspectiveCamera(60, aspect, 1, 160000000),
             new OrthographicCamera(-1, 1, 1, -1, 1, 160000000)
         );
-        this._transition.perspectiveCamera.position.set(
-            4800000,
-            2570000,
-            14720000
-        );
+        this._transition.perspectiveCamera.position.copy(BJPos);
         this._transition.perspectiveCamera.lookAt(0, 0, 0);
         this._transition.autoSync = false;
 
@@ -484,6 +500,23 @@ class Viewer extends EventDispatcher<ViewerEvents> {
         }
 
         return needResize;
+    }
+
+    // viewer 基本功能
+    zoomTo(position: { lat: number; lon: number; height: number }) {
+        const { lat, lon, height } = position;
+        const newPostion = new Vector3();
+        WGS84_ELLIPSOID.getCartographicToPosition(
+            lat * MathUtils.DEG2RAD,
+            lon * MathUtils.DEG2RAD,
+            height,
+            newPostion
+        );
+        // 绕着x轴旋转-90度，因为three.js的坐标系是右手系，而WGS84椭球体的坐标系是左手系
+        newPostion.applyAxisAngle(new Vector3(1, 0, 0), -Math.PI / 2);
+        this._transition.perspectiveCamera.position.copy(newPostion);
+        this._transition.perspectiveCamera.lookAt(0, 0, 0);
+        this._transition.update();
     }
 }
 
