@@ -165,6 +165,12 @@ class Viewer extends EventDispatcher<ViewerEvents> {
         this._animate();
     }
 
+    /**
+     * 获取相机
+     *
+     * @readonly
+     * @memberof Viewer
+     */
     get camera() {
         return this._transition.camera;
     }
@@ -179,16 +185,127 @@ class Viewer extends EventDispatcher<ViewerEvents> {
      * @readonly
      * @memberof Viewer
      */
-    get latitude() {
+    get latitude(): number {
         return this._latitude;
     }
 
-    get longitude() {
+    get longitude(): number {
         return this._longitude;
     }
 
-    get height() {
+    get height(): number {
         return this._height;
+    }
+
+    /**
+     * 获取相机的 Heading（方位角）
+     * @returns 方位角（度），0° = 北，90° = 东，180° = 南，270° = 西
+     */
+    get heading(): number {
+        const camera = this.camera;
+        const cameraPos = camera.position.clone();
+        const direction = new Vector3();
+        camera.getWorldDirection(direction);
+
+        // 计算当前相机位置到地心的向量（地球表面法向量）
+        // 需要考虑地球的旋转变换
+        const mat = this.tiles.group.matrixWorld.clone().invert();
+        const localCameraPos = cameraPos.clone().applyMatrix4(mat);
+
+        // 获取当前位置的地球表面法向量
+        const res: { lat?: number; lon?: number; height?: number } = {};
+        WGS84_ELLIPSOID.getPositionToCartographic(localCameraPos, res);
+
+        // 计算地表法向量（指向天空）
+        const normal = new Vector3();
+        WGS84_ELLIPSOID.getCartographicToPosition(
+            res.lat ?? 0,
+            res.lon ?? 0,
+            0, // 高度设为0，获取地表法向量
+            normal
+        );
+        normal.normalize();
+
+        // 应用地球的旋转变换
+        normal.applyMatrix4(this.tiles.group.matrixWorld);
+        normal.normalize();
+
+        // 计算北方向向量（在当前位置的切平面上）
+        // 北方向 = 指向北极的向量在地表切平面上的投影
+        const northPole = new Vector3(0, 0, 1); // WGS84 坐标系中的北极方向
+        northPole.applyMatrix4(this.tiles.group.matrixWorld);
+        northPole.normalize();
+
+        // 计算北方向在地表切平面上的投影
+        const northOnSurface = northPole
+            .clone()
+            .sub(normal.clone().multiplyScalar(northPole.dot(normal)));
+        northOnSurface.normalize();
+
+        // 计算东方向向量（垂直于北方向和法向量）
+        const eastOnSurface = new Vector3().crossVectors(
+            normal,
+            northOnSurface
+        );
+        eastOnSurface.normalize();
+
+        // 将相机朝向投影到地表切平面上
+        const directionOnSurface = direction
+            .clone()
+            .sub(normal.clone().multiplyScalar(direction.dot(normal)));
+        directionOnSurface.normalize();
+
+        // 计算方位角
+        const northDot = directionOnSurface.dot(northOnSurface);
+        const eastDot = directionOnSurface.dot(eastOnSurface);
+
+        const heading = Math.atan2(eastDot, northDot) * MathUtils.RAD2DEG;
+
+        return (-heading + 360) % 360;
+    }
+
+    /**
+     * 获取相机的 Pitch（俯仰角）
+     * @returns 俯仰角（度），正值向上看，负值向下看
+     */
+    get pitch(): number {
+        const camera = this.camera;
+        const cameraPos = camera.position.clone();
+        const direction = new Vector3();
+        camera.getWorldDirection(direction);
+
+        // 计算当前相机位置到地心的向量（地球表面法向量）
+        // 需要考虑地球的旋转变换
+        // 获取瓦片的逆变换矩阵
+        const mat = this.tiles.group.matrixWorld.clone().invert();
+        // 转换为局部坐标系
+        const localCameraPos = cameraPos.clone().applyMatrix4(mat);
+
+        // 获取当前位置的地球表面法向量
+        const res: { lat?: number; lon?: number; height?: number } = {};
+        WGS84_ELLIPSOID.getPositionToCartographic(localCameraPos, res);
+
+        // 重新计算该位置的法向量（指向地心的相反方向）
+        const normal = new Vector3();
+        // 使用WGS84椭球体获取地表法向量
+        WGS84_ELLIPSOID.getCartographicToPosition(
+            res.lat ?? 0,
+            res.lon ?? 0,
+            0, // 高度设为0，获取地表法向量
+            normal
+        );
+        normal.normalize();
+
+        // 应用地球的旋转变换
+        normal.applyMatrix4(this.tiles.group.matrixWorld);
+        normal.normalize();
+
+        // 计算相机朝向与地表法向量的夹角
+        // pitch = 夹角 - 90°，因为法向量指向天空，我们要的是相对于地平面的角度
+        const dotProduct = direction.dot(normal);
+        const pitch = Math.asin(dotProduct) * MathUtils.RAD2DEG;
+
+        return pitch;
     }
 
     /**
@@ -567,6 +684,17 @@ class Viewer extends EventDispatcher<ViewerEvents> {
                 },
             }
         );
+    }
+
+    // -----Terrain相关功能-----
+    /**
+     * 设置地形可见性
+     * @param visible 是否显示地形
+     */
+    setTerrainVisibe(visible: boolean) {
+        if (this._tiles.group) {
+            this._tiles.group.visible = visible;
+        }
     }
 }
 
