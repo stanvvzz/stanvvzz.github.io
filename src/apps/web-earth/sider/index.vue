@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { useSiderStore } from "@/stores/SiderStore";
+import { useSiderStore } from "@/apps/web-earth/stores/SiderStore";
 import IconClose from "@arco-design/web-vue/es/icon/icon-close";
 
 // 动态导入面板组件

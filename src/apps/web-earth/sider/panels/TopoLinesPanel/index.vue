@@ -122,7 +122,7 @@
 <script setup lang="ts">
 import { reactive, watch, onMounted } from "vue";
 import { Message } from "@arco-design/web-vue";
-import { useViewerStore } from "@/stores/ViewerStore";
+import { useViewerStore } from "@/apps/web-earth/stores/ViewerStore";
 import { Color } from "three";
 
 const viewerStore = useViewerStore();

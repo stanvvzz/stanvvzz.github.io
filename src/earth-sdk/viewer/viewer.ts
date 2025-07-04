@@ -642,7 +642,7 @@ class Viewer extends EventDispatcher<ViewerEvents> {
         options: { duration?: number; pitch?: number; heading?: number } = {}
     ) {
         const { lat, lon, height } = position;
-        const { duration = 2, pitch = -90, heading = 0 } = options;
+        const { duration = 2 } = options;
 
         // 目标世界坐标
         const target = new Vector3();

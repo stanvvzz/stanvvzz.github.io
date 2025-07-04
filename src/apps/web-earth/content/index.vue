@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, nextTick } from "vue";
-import { useViewerStore } from "@/stores/ViewerStore/index";
+import { useViewerStore } from "@/apps/web-earth/stores/ViewerStore/index";
 import LatLonBox from "@/apps/web-earth/components/common/LatLonBox/index.vue";
 
 const earthContainer = ref<HTMLElement | null>(null);

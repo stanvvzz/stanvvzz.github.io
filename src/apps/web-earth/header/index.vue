@@ -64,7 +64,7 @@ import IconSettings from "@arco-design/web-vue/es/icon/icon-settings";
 import IconUser from "@arco-design/web-vue/es/icon/icon-user";
 // 全屏组件
 import FullscreenButton from "@/apps/web-earth/components/common/FullscreenButton/index.vue";
-import { useSiderStore } from "@/stores/SiderStore/index.ts";
+import { useSiderStore } from "@/apps/web-earth/stores/SiderStore";
 
 const siderStore = useSiderStore();
 

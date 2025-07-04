@@ -12,8 +12,20 @@ const routes: RouteRecordRaw[] = [
         children: [
             {
                 path: "",
-                name: "layout",
+                name: "earth-layout",
                 component: () => import("@/apps/web-earth/layout/index.vue"),
+            },
+        ],
+    },
+    {
+        path: "/blog",
+        name: "blog",
+        component: () => import("@/apps/blog/index.vue"),
+        children: [
+            {
+                path: "",
+                name: "blog-layout",
+                component: () => import("@/apps/blog/layout/index.vue"),
             },
         ],
     },

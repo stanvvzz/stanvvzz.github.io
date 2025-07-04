@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue";
-import { useViewerStore } from "@/stores/ViewerStore/index";
+import { useViewerStore } from "@/apps/web-earth/stores/ViewerStore/index";
 
 const viewerStore = useViewerStore();
 const longitude = ref(0);
