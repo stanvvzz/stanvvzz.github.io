@@ -5,7 +5,7 @@ export const useLayoutStore = defineStore("layout", () => {
     const siderCollapsed = ref(false); // 是否折叠
     const siderCollapsible = ref(true); // 是否可折叠
     const siderWidth = ref(200); // 宽度
-    const collapsedWidth = ref(48); // 折叠后宽度
+    const collapsedWidth = ref(0); // 折叠后宽度
 
     const siderStatusText = computed(() =>
         siderCollapsed.value ? "已折叠" : "已展开"

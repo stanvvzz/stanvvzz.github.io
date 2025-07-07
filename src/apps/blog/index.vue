@@ -9,7 +9,7 @@
         </template>
 
         <template #content>
-            <div>自定义内容区</div>
+            <BlogContent></BlogContent>
         </template>
     </BlogLayout>
 </template>
@@ -17,6 +17,7 @@
 <script setup lang="ts">
 import BlogLayout from "./layout/index.vue";
 import BlogHeader from "./header/index.vue";
+import BlogContent from "./content/index.vue";
 </script>
 
 <style lang="less" scoped></style>

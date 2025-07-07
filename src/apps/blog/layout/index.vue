@@ -13,7 +13,6 @@
                 class="layout-sider"
                 :width="layoutStore.siderWidth"
                 :collapsed="layoutStore.siderCollapsed"
-                :collapsible="layoutStore.siderCollapsible"
                 :collapsed-width="layoutStore.collapsedWidth"
                 @collapse="handleCollapse"
             >
@@ -44,15 +43,16 @@ const handleCollapse = (val: boolean) => {
 
 <!-- 样式保持不变 -->
 <style lang="less" scoped>
-/* ...原有样式保持不变... */
 .layout-container {
     width: 100vw;
+    // 确保容器存在高度
     height: 100vh;
     position: absolute;
     top: 0;
     left: 0;
     display: flex;
     flex-direction: column;
+    // 防止主容器滚动
     overflow: hidden;
 }
 
@@ -65,27 +65,47 @@ const handleCollapse = (val: boolean) => {
     align-items: center;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     z-index: 10;
+    flex-shrink: 0;
 }
 
 .main-section {
     flex: 1;
     display: flex;
     min-height: 0;
+    overflow: hidden;
 }
 
 .layout-sider {
     background-color: #fff;
     border-right: 1px solid #e8e8e8;
     box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+
+    // flex-shrink: 0; 是 CSS Flexbox 布局中的属性，用于控制 flex 项目在容器空间不足时是否被压缩。
+    flex-shrink: 0;
 }
 
 .layout-content {
     flex: 1;
     padding: 12px;
-    overflow: auto;
     background-color: #f5f5f5;
-    overflow: hidden;
+
+    // 设置内容区域可以滚动
+    overflow: auto;
+    overflow-y: scroll;
+    // 防止水平滚动
+    overflow-x: hidden;
     min-height: 0;
+
+    // chorme
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* 隐藏滚动条 - Firefox */
+    scrollbar-width: none;
+
+    /* 隐藏滚动条 - IE/Edge (旧版) */
+    -ms-overflow-style: none;
 }
 
 .default-header,
@@ -99,9 +119,9 @@ const handleCollapse = (val: boolean) => {
 }
 
 .default-content {
-    height: 100%;
     background-color: #fafafa;
     border: 1px dashed #e0e0e0;
     border-radius: 4px;
+    min-height: 200px;
 }
 </style>
