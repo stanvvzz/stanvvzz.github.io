@@ -82,6 +82,24 @@ const handleCollapse = (val: boolean) => {
 
     // flex-shrink: 0; 是 CSS Flexbox 布局中的属性，用于控制 flex 项目在容器空间不足时是否被压缩。
     flex-shrink: 0;
+
+    /* 自定义侧边栏收起展开动画 */
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+
+    /* 覆盖 Arco Design 默认动画 */
+    :deep(.arco-layout-sider-children) {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* 控制触发区域的动画 */
+    :deep(.arco-layout-sider-trigger) {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        background-color: #f5f5f5;
+
+        &:hover {
+            background-color: #e6f7ff;
+        }
+    }
 }
 
 .layout-content {

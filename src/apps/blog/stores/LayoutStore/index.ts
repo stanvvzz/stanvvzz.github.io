@@ -7,6 +7,9 @@ export const useLayoutStore = defineStore("layout", () => {
     const siderWidth = ref(200); // 宽度
     const collapsedWidth = ref(0); // 折叠后宽度
 
+    // 当前活动的内容组件
+    const currentContent = ref<string>("home"); // 默认显示 Home 欢迎页面
+
     const siderStatusText = computed(() =>
         siderCollapsed.value ? "已折叠" : "已展开"
     );
@@ -47,12 +50,18 @@ export const useLayoutStore = defineStore("layout", () => {
         siderWidth.value = width;
     };
 
+    // 设置当前内容组件
+    const setCurrentContent = (contentType: string) => {
+        currentContent.value = contentType;
+    };
+
     return {
         // State
         siderCollapsed,
         siderCollapsible,
         siderWidth,
         collapsedWidth,
+        currentContent,
 
         // Getters
         siderStatusText,
@@ -65,5 +74,6 @@ export const useLayoutStore = defineStore("layout", () => {
         collapseSider,
         toggleCollapsible,
         setSiderWidth,
+        setCurrentContent,
     };
 });

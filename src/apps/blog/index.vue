@@ -5,7 +5,7 @@
         </template>
 
         <template #sider>
-            <div>自定义侧边栏</div>
+            <BlogSider></BlogSider>
         </template>
 
         <template #content>
@@ -17,6 +17,7 @@
 <script setup lang="ts">
 import BlogLayout from "./layout/index.vue";
 import BlogHeader from "./header/index.vue";
+import BlogSider from "./sider/index.vue";
 import BlogContent from "./content/index.vue";
 </script>
 
