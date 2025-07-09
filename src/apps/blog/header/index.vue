@@ -67,7 +67,7 @@ const handleScroll = (event: Event) => {
 // 在组件挂载时添加滚动监听
 onMounted(() => {
     // 查找内容区域元素
-    const contentElement = document.querySelector(".layout-content");
+    const contentElement = document.querySelector(".content-container");
     if (contentElement) {
         contentElement.addEventListener("scroll", handleScroll);
     }
