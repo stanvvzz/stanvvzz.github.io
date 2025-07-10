@@ -23,6 +23,9 @@ importers:
       gsap:
         specifier: ^3.13.0
         version: 3.13.0
+      notion-api-worker:
+        specifier: ^0.1.0
+        version: 0.1.0
       pina:
         specifier: ^0.20.2204228
         version: 0.20.2204228
@@ -1000,6 +1003,9 @@ packages:
   node-releases@2.0.19:
     resolution: {integrity: sha512-xxOWJsBKtzAq7DY0J+DTzuz58K8e7sJbdgwkbMWQe8UYB6ekmsQ45q0M/tJDsGaZmbC+l7n57UV8Hl5tHxO9uw==}
 
+  notion-api-worker@0.1.0:
+    resolution: {integrity: sha512-99dRjBv8J9m+QIf7YJftjZSQrT15Y9Werer4NPyZt+mre1MWdobMFPQtqU82ENZwZ9IQcqtUlXrcQD4s4cp4/A==}
+
   npm-run-path@6.0.0:
     resolution: {integrity: sha512-9qny7Z9DsQU8Ou39ERsPU4OZQlSTP47ShQzuKZ6PRXpYLtIFgl/DEBYEXKlvcEa+9tHVcK8CF81Y2V72qaZhWA==}
     engines: {node: '>=18'}
@@ -1029,6 +1035,9 @@ packages:
   path-key@4.0.0:
     resolution: {integrity: sha512-haREypq7xkM7ErfgIyA0z+Bj4AGKlMSdlQE2jvJo6huWD1EdkKYV+G/T4nq0YEF2vgTT8kqMFKo1uHn950r4SQ==}
     engines: {node: '>=12'}
+
+  path-to-regexp@6.3.0:
+    resolution: {integrity: sha512-Yhpw4T9C6hPpgPeA28us07OJeqZ5EzQTkbfwuhsUg0c237RomFoETJgmp2sa3F/41gfLE6G5cqcYwznmeEeOlQ==}
 
   pathe@2.0.3:
     resolution: {integrity: sha512-WUjGcAqP1gQacoQe+OBJsFA7Ld4DyXuUIjZ5cc75cLHvJ7dtNsTugphxIADwspS+AraAUePCKrSVtPLFj/F88w==}
@@ -1181,6 +1190,9 @@ packages:
 
   three@0.176.0:
     resolution: {integrity: sha512-PWRKYWQo23ojf9oZSlRGH8K09q7nRSWx6LY/HF/UUrMdYgN9i1e2OwJYHoQjwc6HF/4lvvYLC5YC1X8UJL2ZpA==}
+
+  tiny-request-router@1.2.2:
+    resolution: {integrity: sha512-6ZMFU7AP9so+hkqmMM9fJ11V44EAcYuHCmNdsyM8k94oVnNDPQwUAAPoBHqchHSpKG6yZbCasgVeRxaY5v2BCg==}
 
   tinyglobby@0.2.13:
     resolution: {integrity: sha512-mEwzpUgrLySlveBwEVDMKk5B57bhLPYovRfPAXD5gA/98Opn0rCDj3GtLwFvCvH5RK9uPCExUROW5NjDwvqkxw==}
@@ -2258,6 +2270,10 @@ snapshots:
 
   node-releases@2.0.19: {}
 
+  notion-api-worker@0.1.0:
+    dependencies:
+      tiny-request-router: 1.2.2
+
   npm-run-path@6.0.0:
     dependencies:
       path-key: 4.0.0
@@ -2281,6 +2297,8 @@ snapshots:
   path-key@3.1.1: {}
 
   path-key@4.0.0: {}
+
+  path-to-regexp@6.3.0: {}
 
   pathe@2.0.3: {}
 
@@ -2437,6 +2455,10 @@ snapshots:
     optional: true
 
   three@0.176.0: {}
+
+  tiny-request-router@1.2.2:
+    dependencies:
+      path-to-regexp: 6.3.0
 
   tinyglobby@0.2.13:
     dependencies:

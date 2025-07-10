@@ -21,32 +21,6 @@
                 </div>
 
                 <div class="nav-controls">
-                    <button class="control-btn filter-btn">
-                        <span>Filter</span>
-                        <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 16 16"
-                            fill="currentColor"
-                        >
-                            <path
-                                d="M4.5 12L4.5 4L6 4L6 12L4.5 12ZM10 8L10 4L11.5 4L11.5 8L10 8ZM10 12L10 9.5L11.5 9.5L11.5 12L10 12Z"
-                            />
-                        </svg>
-                    </button>
-
-                    <button class="control-btn sort-btn">
-                        <span>Sort</span>
-                        <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 16 16"
-                            fill="currentColor"
-                        >
-                            <path d="M8 2L8 14M8 2L11 5M8 2L5 5" />
-                        </svg>
-                    </button>
-
                     <div class="view-toggle">
                         <button
                             :class="[
@@ -155,9 +129,14 @@
                     <div class="card-content">
                         <h3 class="card-title">{{ card.title }}</h3>
                         <div class="card-meta">
-                            <span class="card-category">{{
-                                card.category
-                            }}</span>
+                            <div
+                                v-for="(category, index) in card.category"
+                                :key="index"
+                            >
+                                <span class="card-category">{{
+                                    category
+                                }}</span>
+                            </div>
                             <span class="card-date">{{ card.date }}</span>
                         </div>
                         <p class="card-description">{{ card.description }}</p>
@@ -240,17 +219,6 @@
                     </svg>
                     返回列表
                 </button>
-                <div class="breadcrumb">
-                    <span class="breadcrumb-item">Vue.js</span>
-                    <span class="breadcrumb-separator">/</span>
-                    <span class="breadcrumb-item">{{
-                        selectedCard.category
-                    }}</span>
-                    <span class="breadcrumb-separator">/</span>
-                    <span class="breadcrumb-item current">{{
-                        selectedCard.title
-                    }}</span>
-                </div>
             </div>
 
             <!-- 动态内容组件 -->
@@ -270,52 +238,6 @@
                         </div>
                     </template>
                 </Suspense>
-
-                <!-- 默认内容（当没有找到对应组件时） -->
-                <div
-                    v-if="!dynamicComponent"
-                    class="article-detail"
-                >
-                    <div class="article-header">
-                        <div
-                            class="article-hero"
-                            :class="selectedCard.imageClass"
-                        >
-                            <div class="hero-icon">{{ selectedCard.icon }}</div>
-                        </div>
-                        <div class="article-meta">
-                            <h1 class="article-title">
-                                {{ selectedCard.title }}
-                            </h1>
-                            <div class="article-info">
-                                <span class="article-category">{{
-                                    selectedCard.category
-                                }}</span>
-                                <span class="article-date">{{
-                                    selectedCard.date
-                                }}</span>
-                                <span class="article-read-time"
-                                    >阅读时间约 10 分钟</span
-                                >
-                            </div>
-                            <p class="article-summary">
-                                {{ selectedCard.description }}
-                            </p>
-                        </div>
-                    </div>
-                    <div class="article-body">
-                        <div class="placeholder-content">
-                            <h2>内容正在准备中...</h2>
-                            <p>这篇文章的详细内容正在编写中，敬请期待！</p>
-                            <p>您可以：</p>
-                            <ul>
-                                <li>点击上方的"返回列表"按钮浏览其他文章</li>
-                                <li>查看已完成的文章内容</li>
-                                <li>关注我们的更新获取最新内容</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
