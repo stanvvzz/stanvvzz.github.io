@@ -8,6 +8,7 @@ export default defineConfig({
         vue(),
         VueDevTools(), // 添加 Vue DevTools 插件
     ],
+    assetsInclude: ["**/*.md"], // 允许将 .md 文件作为资源导入
     resolve: {
         alias: {
             "@": new URL("./src", import.meta.url).pathname,
