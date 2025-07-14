@@ -294,8 +294,8 @@ const filteredCards = computed(() => {
     if (activeTab.value === "all") {
         return props.articles;
     }
-    return props.articles.filter(card => 
-        card.category.some(cat => 
+    return props.articles.filter((card) =>
+        card.category.some((cat) =>
             cat.toLowerCase().includes(activeTab.value.toLowerCase())
         )
     );
