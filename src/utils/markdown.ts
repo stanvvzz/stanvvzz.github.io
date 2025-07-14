@@ -94,6 +94,16 @@ md.renderer.rules.fence = (tokens, idx) => {
   `;
 };
 
-export const renderMarkdown = (content: string): string => {
-    return md.render(content);
+export const renderMarkdown = (
+    content: string,
+    options: { removeFirstH1?: boolean } = {}
+): string => {
+    let processedContent = content;
+
+    // 如果需要移除第一个 h1 标题
+    if (options.removeFirstH1) {
+        processedContent = content.replace(/^#\s+.+$/m, "");
+    }
+
+    return md.render(processedContent);
 };

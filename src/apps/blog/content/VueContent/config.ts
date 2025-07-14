@@ -1,4 +1,4 @@
-// Vue内容配置 - 统一管理卡片数据和组件映射
+// Vue内容配置 - 统一管理卡片数据和Markdown文件映射
 export interface VueArticle {
     id: number;
     title: string;
@@ -7,32 +7,39 @@ export interface VueArticle {
     description: string;
     imageClass: string;
     icon: string;
-    component?: string; // 对应的详细内容组件名
+    // Markdown文件路径
+    markdownPath?: string;
 }
 
 // 卡片数据配置
 export const vueArticles: VueArticle[] = [
     {
         id: 1,
-        title: "基于滚动的Logo动画切换",
-        category: ["Vue.js", "CSS", "HTML"],
+        title: "加载子瓦片的性能优化方案",
+        category: ["Vue.js", "Worker", "Canvas"],
         date: "Jan 10, 2025",
-        description: "",
+        description: "在地图软件中，当拉近视角时加载子瓦片的性能优化方案",
         imageClass: "gradient-blue",
-        icon: "🎯",
-        component: "Article1",
+        icon: "🚀",
+        markdownPath: "/md/vue/1.md",
     },
 ];
 
-// 动态导入组件的工厂函数
-export const loadArticleComponent = async (componentName: string) => {
+// 动态加载Markdown内容的工厂函数
+export const loadMarkdownContent = async (
+    markdownPath: string
+): Promise<string> => {
     try {
-        const component = await import(`./articles/${componentName}/index.vue`);
-        return component.default;
+        // 使用fetch来获取markdown文件
+        const response = await fetch(markdownPath);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const content = await response.text();
+        return content;
     } catch (error) {
-        console.warn(`Failed to load component: ${componentName}`, error);
-        // 返回默认的错误组件或占位符
-        return null;
+        console.warn(`Failed to load markdown: ${markdownPath}`, error);
+        return "# 文章加载失败\n\n无法加载文章内容，请稍后再试。";
     }
 };
 

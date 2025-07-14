@@ -229,6 +229,7 @@
                             :is="dynamicComponent"
                             v-if="dynamicComponent"
                             :article="selectedCard"
+                            :markdownContent="markdownContent"
                         />
                     </template>
                     <template #fallback>
@@ -248,9 +249,10 @@ import { ref, computed, shallowRef } from "vue";
 import {
     vueArticles,
     navTabs,
-    loadArticleComponent,
+    loadMarkdownContent,
     type VueArticle,
 } from "./config";
+import MarkdownArticle from "../../components/MarkdownArticle/index.vue";
 
 // 当前活动标签
 const activeTab = ref("all");
@@ -263,7 +265,8 @@ const pageMode = ref<"list" | "detail">("list");
 const selectedCard = ref<VueArticle | null>(null);
 
 // 动态组件引用
-const dynamicComponent = shallowRef(null);
+const dynamicComponent = shallowRef<any>(null);
+const markdownContent = ref("");
 
 // 分页相关
 const currentPage = ref(1);
@@ -334,15 +337,17 @@ const handleCardClick = async (card: VueArticle) => {
     selectedCard.value = card;
     pageMode.value = "detail";
 
-    // 动态加载对应的组件
-    if (card.component) {
+    // 动态加载Markdown内容
+    if (card.markdownPath) {
         try {
-            const component = await loadArticleComponent(card.component);
-            dynamicComponent.value = component;
+            const content = await loadMarkdownContent(card.markdownPath);
+            markdownContent.value = content;
+            dynamicComponent.value = MarkdownArticle;
         } catch (error) {
-            console.error("Failed to load article component:", error);
-            // 显示错误组件或占位符
-            dynamicComponent.value = null;
+            console.error("Failed to load markdown content:", error);
+            markdownContent.value =
+                "# 文章加载失败\n\n无法加载文章内容，请稍后再试。";
+            dynamicComponent.value = MarkdownArticle;
         }
     }
 
