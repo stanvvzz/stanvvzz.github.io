@@ -53,4 +53,5 @@ export const navTabs = [
     { id: "all", name: "All" },
     { id: "css", name: "CSS" },
     { id: "html", name: "HTML" },
+    { id: "canvas", name: "Canvas" },
 ];

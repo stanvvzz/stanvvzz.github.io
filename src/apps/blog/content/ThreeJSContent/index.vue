@@ -1,48 +1,24 @@
 <template>
-    <div class="content-page">
-        <h1>Three.js</h1>
-        <div class="content-body">
-            <p>
-                Three.js 是一个跨浏览器的 JavaScript
-                库，用于在网页上创建和显示动画的 3D 计算机图形。
-            </p>
-            <ul>
-                <li>3D 场景渲染</li>
-                <li>几何体和材质</li>
-                <li>光照系统</li>
-                <li>动画控制</li>
-            </ul>
-        </div>
-    </div>
+    <ContentPage
+        :articles="threeJSArticles"
+        :loadMarkdownContent="loadMarkdownContent"
+        pageTitle="Three.js"
+        :navTabs="navTabs"
+    />
 </template>
 
 <script setup lang="ts">
-// Three.js 内容组件
+import ContentPage from "../../components/ContentPage/index.vue";
+import {
+    threeJSArticles,
+    loadMarkdownContent,
+} from "./config";
+
+// 导航标签配置
+const navTabs = [
+    { id: "all", name: "全部" },
+    { id: "basic", name: "基础入门" },
+    { id: "advanced", name: "进阶技巧" },
+    { id: "performance", name: "性能优化" },
+];
 </script>
-
-<style lang="less" scoped>
-.content-page {
-    padding: 24px;
-
-    h1 {
-        font-size: 2rem;
-        margin-bottom: 16px;
-        color: #1f2937;
-    }
-
-    .content-body {
-        font-size: 16px;
-        line-height: 1.6;
-        color: #374151;
-
-        ul {
-            margin-top: 16px;
-            padding-left: 20px;
-
-            li {
-                margin-bottom: 8px;
-            }
-        }
-    }
-}
-</style>
