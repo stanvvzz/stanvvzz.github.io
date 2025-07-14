@@ -33,36 +33,6 @@ export const javaScriptArticles: JavaScriptArticle[] = [
         icon: "⚡",
         markdownPath: "/md/javascript/2.md",
     },
-    {
-        id: 3,
-        title: "JavaScript 性能优化技巧",
-        category: ["JavaScript", "Performance", "Optimization"],
-        date: "Jan 10, 2025",
-        description: "提升JavaScript应用性能的关键策略和优化方法",
-        imageClass: "gradient-green",
-        icon: "🎯",
-        markdownPath: "/md/javascript/3.md",
-    },
-    {
-        id: 4,
-        title: "函数式编程在JavaScript中的应用",
-        category: ["JavaScript", "Functional", "Programming"],
-        date: "Jan 09, 2025",
-        description: "探索函数式编程范式在JavaScript中的实际应用",
-        imageClass: "gradient-purple",
-        icon: "🔧",
-        markdownPath: "/md/javascript/4.md",
-    },
-    {
-        id: 5,
-        title: "JavaScript 设计模式精讲",
-        category: ["JavaScript", "Design Pattern", "Architecture"],
-        date: "Jan 08, 2025",
-        description: "常用JavaScript设计模式的实现和应用场景",
-        imageClass: "gradient-pink",
-        icon: "🎨",
-        markdownPath: "/md/javascript/5.md",
-    },
 ];
 
 // 动态加载Markdown内容的工厂函数

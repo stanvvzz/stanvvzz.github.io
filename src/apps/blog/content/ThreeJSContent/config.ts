@@ -23,36 +23,6 @@ export const threeJSArticles: ThreeJSArticle[] = [
         icon: "🎮",
         markdownPath: "/md/threejs/1.md",
     },
-    {
-        id: 2,
-        title: "Three.js 光照系统详解",
-        category: ["Three.js", "Lighting", "Shader"],
-        date: "Jan 11, 2025",
-        description: "深入理解Three.js中的各种光源类型和阴影渲染",
-        imageClass: "gradient-yellow",
-        icon: "💡",
-        markdownPath: "/md/threejs/2.md",
-    },
-    {
-        id: 3,
-        title: "Three.js 性能优化最佳实践",
-        category: ["Three.js", "Performance", "Optimization"],
-        date: "Jan 09, 2025",
-        description: "提升Three.js应用性能的关键技巧和优化策略",
-        imageClass: "gradient-green",
-        icon: "⚡",
-        markdownPath: "/md/threejs/3.md",
-    },
-    {
-        id: 4,
-        title: "Three.js 动画系统进阶",
-        category: ["Three.js", "Animation", "Timeline"],
-        date: "Jan 08, 2025",
-        description: "掌握Three.js动画系统，创建流畅的3D动画效果",
-        imageClass: "gradient-pink",
-        icon: "🎬",
-        markdownPath: "/md/threejs/4.md",
-    },
 ];
 
 // 动态加载Markdown内容的工厂函数

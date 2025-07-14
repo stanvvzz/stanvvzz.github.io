@@ -23,36 +23,6 @@ export const cppArticles: CppArticle[] = [
         icon: "⚡",
         markdownPath: "/md/cpp/1.md",
     },
-    {
-        id: 2,
-        title: "C++ 内存管理与智能指针",
-        category: ["C++", "Memory", "Smart Pointer"],
-        date: "Jan 13, 2025",
-        description: "深入理解C++内存管理机制和智能指针的使用",
-        imageClass: "gradient-zinc",
-        icon: "🧠",
-        markdownPath: "/md/cpp/2.md",
-    },
-    {
-        id: 3,
-        title: "C++ 模板编程进阶",
-        category: ["C++", "Template", "Metaprogramming"],
-        date: "Jan 12, 2025",
-        description: "探索C++模板的高级用法和元编程技术",
-        imageClass: "gradient-stone",
-        icon: "🔧",
-        markdownPath: "/md/cpp/3.md",
-    },
-    {
-        id: 4,
-        title: "C++ 并发编程与多线程",
-        category: ["C++", "Concurrency", "Threading"],
-        date: "Jan 11, 2025",
-        description: "掌握C++并发编程，实现高效的多线程应用",
-        imageClass: "gradient-gray",
-        icon: "🔀",
-        markdownPath: "/md/cpp/4.md",
-    },
 ];
 
 // 动态加载Markdown内容的工厂函数

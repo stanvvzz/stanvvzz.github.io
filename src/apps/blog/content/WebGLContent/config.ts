@@ -23,36 +23,6 @@ export const webGLArticles: WebGLArticle[] = [
         icon: "🎮",
         markdownPath: "/md/webgl/1.md",
     },
-    {
-        id: 2,
-        title: "WebGL 矩阵变换与坐标系统",
-        category: ["WebGL", "Matrix", "Transform"],
-        date: "Jan 12, 2025",
-        description: "理解WebGL中的矩阵运算和3D坐标变换",
-        imageClass: "gradient-indigo",
-        icon: "📐",
-        markdownPath: "/md/webgl/2.md",
-    },
-    {
-        id: 3,
-        title: "WebGL 纹理映射技术",
-        category: ["WebGL", "Texture", "Mapping"],
-        date: "Jan 11, 2025",
-        description: "掌握WebGL纹理贴图的加载、应用和优化技巧",
-        imageClass: "gradient-teal",
-        icon: "🖼️",
-        markdownPath: "/md/webgl/3.md",
-    },
-    {
-        id: 4,
-        title: "WebGL 光照模型实现",
-        category: ["WebGL", "Lighting", "Rendering"],
-        date: "Jan 10, 2025",
-        description: "实现各种光照模型，创建逼真的3D渲染效果",
-        imageClass: "gradient-lime",
-        icon: "💡",
-        markdownPath: "/md/webgl/4.md",
-    },
 ];
 
 // 动态加载Markdown内容的工厂函数

@@ -575,6 +575,42 @@ const backToList = () => {
             background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
         }
 
+        &.gradient-pink {
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+        }
+
+        &.gradient-yellow {
+            background: linear-gradient(135deg, #f7b731 0%, #f1c40f 100%);
+        }
+
+        &.gradient-teal {
+            background: linear-gradient(135deg, #1dd1a1 0%, #10ac84 100%);
+        }
+
+        &.gradient-indigo {
+            background: linear-gradient(135deg, #5352ed 0%, #3742fa 100%);
+        }
+
+        &.gradient-lime {
+            background: linear-gradient(135deg, #7bed9f 0%, #2ed573 100%);
+        }
+
+        &.gradient-slate {
+            background: linear-gradient(135deg, #57606f 0%, #2f3542 100%);
+        }
+
+        &.gradient-zinc {
+            background: linear-gradient(135deg, #747d8c 0%, #57606f 100%);
+        }
+
+        &.gradient-stone {
+            background: linear-gradient(135deg, #a4b0be 0%, #747d8c 100%);
+        }
+
+        &.gradient-gray {
+            background: linear-gradient(135deg, #ced6e0 0%, #a4b0be 100%);
+        }
+
         .card-icon {
             font-size: 3rem;
             filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
