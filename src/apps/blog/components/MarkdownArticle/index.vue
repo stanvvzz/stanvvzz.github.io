@@ -27,12 +27,12 @@
 
 <script setup lang="ts">
 import { computed, onMounted } from "vue";
-import type { VueArticle } from "../../content/WebContent/config";
+import type { WebArticle } from "../../content/WebContent/config";
 import { renderMarkdown } from "@/utils/markdown";
 import "highlight.js/styles/github.css"; // 引入highlight.js样式
 
 interface Props {
-    article: VueArticle;
+    article: WebArticle;
     markdownContent: string;
 }
 
