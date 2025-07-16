@@ -3,40 +3,15 @@
         <!-- 主要英雄区域 -->
         <div class="hero-section">
             <div class="hero-content">
-                <div class="hero-badge">
-                    <span class="badge-text">🚀 持续学习，分享技术</span>
-                </div>
-
                 <h1 class="hero-title">
                     构建更好的
-                    <span class="gradient-text">技术世界</span>
+                    <span class="gradient-text">虚拟世界</span>
                 </h1>
 
                 <p class="hero-description">
                     探索前端技术、图形编程和性能优化的无限可能。<br />
                     在这里分享我的编程学习之旅与技术见解。
                 </p>
-
-                <div class="hero-actions">
-                    <button class="primary-button">
-                        开始阅读
-                        <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 16 16"
-                            fill="none"
-                        >
-                            <path
-                                d="M6 4l4 4-4 4"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                            />
-                        </svg>
-                    </button>
-                    <button class="secondary-button">了解更多</button>
-                </div>
             </div>
 
             <!-- 视觉装饰 -->

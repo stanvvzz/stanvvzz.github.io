@@ -42,7 +42,7 @@
                 :style="{ animationDelay: '0.3s' }"
                 @click="handleMenuClick('dalle')"
             >
-                <span class="menu-text">Vue</span>
+                <span class="menu-text">Web</span>
                 <img
                     class="menu-arrow"
                     src="/public/right-arrow.svg"

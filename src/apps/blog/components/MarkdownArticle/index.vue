@@ -27,7 +27,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted } from "vue";
-import type { VueArticle } from "../../content/VueContent/config";
+import type { VueArticle } from "../../content/WebContent/config";
 import { renderMarkdown } from "@/utils/markdown";
 import "highlight.js/styles/github.css"; // 引入highlight.js样式
 

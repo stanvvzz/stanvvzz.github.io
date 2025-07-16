@@ -121,7 +121,30 @@
                     @click="handleCardClick(card)"
                 >
                     <div class="card-image">
-                        <div :class="['card-placeholder', card.imageClass]">
+                        <!-- 如果 imageClass 是图片路径，显示图片；否则显示渐变背景 -->
+                        <div
+                            v-if="isImagePath(card.imageClass)"
+                            class="card-image-container"
+                        >
+                            <img
+                                :src="card.imageClass"
+                                :alt="card.title"
+                                class="card-img"
+                                @error="handleImageError($event, card)"
+                            />
+                            <div class="card-overlay">
+                                <div
+                                    class="card-icon"
+                                    v-if="card.icon"
+                                >
+                                    {{ card.icon }}
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            v-else
+                            :class="['card-placeholder', card.imageClass]"
+                        >
                             <div class="card-icon">{{ card.icon }}</div>
                         </div>
                     </div>
@@ -390,6 +413,25 @@ const backToList = () => {
     markdownContent.value = "";
     window.scrollTo({ top: 0, behavior: "smooth" });
 };
+
+// 判断是否为图片路径
+const isImagePath = (imageClass: string): boolean => {
+    // 检查是否为图片文件路径
+    const imageExtensions = [".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg"];
+    return (
+        imageExtensions.some((ext) => imageClass.toLowerCase().includes(ext)) ||
+        imageClass.startsWith("/") ||
+        imageClass.startsWith("http")
+    );
+};
+
+// 处理图片加载错误
+const handleImageError = (event: Event, card: Article) => {
+    console.warn(`Failed to load image for card: ${card.title}`);
+    // 图片加载失败时，可以设置默认图片或隐藏图片
+    const img = event.target as HTMLImageElement;
+    img.style.display = "none";
+};
 </script>
 
 <style lang="less" scoped>
@@ -543,6 +585,42 @@ const backToList = () => {
     position: relative;
     overflow: hidden;
 
+    /* 图片容器样式 */
+    .card-image-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+
+        .card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* 保持宽高比，填充整个容器 */
+            object-position: center; /* 居中显示 */
+            transition: transform 0.3s ease;
+        }
+
+        .card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+
+            .card-icon {
+                font-size: 3rem;
+                color: white;
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            }
+        }
+    }
+
     .card-placeholder {
         width: 100%;
         height: 100%;
@@ -615,6 +693,17 @@ const backToList = () => {
             font-size: 3rem;
             filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
         }
+    }
+}
+
+/* 悬浮效果 */
+.content-card:hover .card-image-container {
+    .card-img {
+        transform: scale(1.05);
+    }
+
+    .card-overlay {
+        opacity: 1;
     }
 }
 

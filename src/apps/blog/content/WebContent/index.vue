@@ -1,13 +1,13 @@
 <template>
     <ContentPage
-        :articles="vueArticles"
+        :articles="webArticles"
         :loadMarkdownContent="loadMarkdownContent"
-        pageTitle="Vue.js"
+        pageTitle="Web"
         :navTabs="navTabs"
     />
 </template>
 
 <script setup lang="ts">
 import ContentPage from "../../components/ContentPage/index.vue";
-import { vueArticles, navTabs, loadMarkdownContent } from "./config";
+import { webArticles, navTabs, loadMarkdownContent } from "./config";
 </script>

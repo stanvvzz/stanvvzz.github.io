@@ -11,7 +11,7 @@ import { useLayoutStore } from "@/apps/blog/stores/LayoutStore";
 // 导入所有内容组件
 import HomeContent from "./HomeContent/index.vue";
 import JavaScriptContent from "./JavaScriptContent/index.vue";
-import VueContent from "./VueContent/index.vue";
+import WebContent from "./WebContent/index.vue";
 import ThreeJSContent from "./ThreeJSContent/index.vue";
 import WebGLContent from "./WebGLContent/index.vue";
 import CppContent from "./CppContent/index.vue";
@@ -22,7 +22,7 @@ const layoutStore = useLayoutStore();
 const contentComponents = {
     home: HomeContent, // 首页欢迎页面
     chat: JavaScriptContent, // JavaScript
-    dalle: VueContent, // Vue
+    dalle: WebContent, // Vue
     sora: ThreeJSContent, // Three.js
     api: WebGLContent, // WebGL
     research: CppContent, // C++

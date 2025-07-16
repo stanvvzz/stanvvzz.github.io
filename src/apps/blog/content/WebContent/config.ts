@@ -1,5 +1,5 @@
 // Vue内容配置 - 统一管理卡片数据和Markdown文件映射
-export interface VueArticle {
+export interface WebArticle {
     id: number;
     title: string;
     category: Array<string>;
@@ -12,16 +12,16 @@ export interface VueArticle {
 }
 
 // 卡片数据配置
-export const vueArticles: VueArticle[] = [
+export const webArticles: WebArticle[] = [
     {
         id: 1,
-        title: "加载子瓦片的性能优化方案",
-        category: ["Vue.js", "Worker", "Canvas"],
+        title: "canvas图像置灰",
+        category: ["Canvas"],
         date: "Jan 10, 2025",
-        description: "在地图软件中，当拉近视角时加载子瓦片的性能优化方案",
-        imageClass: "gradient-blue",
-        icon: "🚀",
-        markdownPath: "/md/vue/1.md",
+        description: "简单的图像置灰算法",
+        imageClass: "/public/image/gray-image.png",
+        icon: "",
+        markdownPath: "/md/web/1.md",
     },
 ];
 
@@ -44,8 +44,8 @@ export const loadMarkdownContent = async (
 };
 
 // 根据ID获取文章信息
-export const getArticleById = (id: number): VueArticle | undefined => {
-    return vueArticles.find((article) => article.id === id);
+export const getArticleById = (id: number): WebArticle | undefined => {
+    return webArticles.find((article) => article.id === id);
 };
 
 // 导航标签配置
