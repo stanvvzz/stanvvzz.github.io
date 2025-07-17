@@ -23,6 +23,26 @@ export const webArticles: WebArticle[] = [
         icon: "",
         markdownPath: "/md/web/1.md",
     },
+    {
+        id: 2,
+        title: "canvas马赛克效果",
+        category: ["Canvas"],
+        date: "Jan 17, 2025",
+        description: "简单的马赛克效果实现",
+        imageClass: "/public/md/web/image/mosaic.png",
+        icon: "",
+        markdownPath: "/md/web/2.md",
+    },
+    {
+        id: 2,
+        title: "canvas刮刮乐效果",
+        category: ["Canvas"],
+        date: "Jan 17, 2025",
+        description: "简单的刮刮乐效果实现",
+        imageClass: "/public/md/web/image/1752760989941.jpg",
+        icon: "",
+        markdownPath: "/md/web/3.md",
+    },
 ];
 
 // 动态加载Markdown内容的工厂函数
