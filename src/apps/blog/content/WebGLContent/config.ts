@@ -15,13 +15,23 @@ export interface WebGLArticle {
 export const webGLArticles: WebGLArticle[] = [
     {
         id: 1,
-        title: "WebGL 基础：从着色器开始",
-        category: ["WebGL", "Shader", "Graphics"],
-        date: "Jan 13, 2025",
-        description: "深入理解WebGL着色器编程，掌握GPU渲染原理",
-        imageClass: "gradient-cyan",
-        icon: "🎮",
+        title: "WebGL点击绘制点",
+        category: ["WebGL"],
+        date: "7/22, 2025",
+        description: "简单的点击demo",
+        imageClass: "/public/md/webgl/image/webgl-canvas.png",
+        icon: "",
         markdownPath: "/md/webgl/1.md",
+    },
+    {
+        id: 2,
+        title: "WebGL绘制渐变三角形",
+        category: ["WebGL"],
+        date: "7/23, 2025",
+        description: "简单的绘制渐变三角形demo",
+        imageClass: "/public/md/webgl/image/triangle.png",
+        icon: "",
+        markdownPath: "/md/webgl/2.md",
     },
 ];
 
@@ -30,7 +40,6 @@ export const loadMarkdownContent = async (
     markdownPath: string
 ): Promise<string> => {
     try {
-        // 使用fetch来获取markdown文件
         const response = await fetch(markdownPath);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
