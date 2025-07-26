@@ -11,7 +11,7 @@
 
             <!-- 🔥 模仿 OpenAI 的 SVG 实现 -->
             <img
-                src="/public/blog-icon.svg"
+                src="/public/svg/blog-icon.svg"
                 alt="Blog Icon"
                 class="blog-icon"
                 :class="{
@@ -47,8 +47,8 @@ const scrollThreshold = 64;
 
 const currentIcon = computed(() => {
     return layoutStore.siderCollapsed
-        ? "/public/side-button2.svg"
-        : "/public/side-button.svg";
+        ? "/public/svg/side-button2.svg"
+        : "/public/svg/side-button.svg";
 });
 
 function handleIconClick() {

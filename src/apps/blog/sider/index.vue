@@ -17,7 +17,7 @@
                 <span class="menu-text">首页</span>
                 <img
                     class="menu-arrow"
-                    src="/public/right-arrow.svg"
+                    src="/public/svg/right-arrow.svg"
                     alt=""
                 />
             </div>
@@ -31,7 +31,7 @@
                 <span class="menu-text">JavaScript</span>
                 <img
                     class="menu-arrow"
-                    src="/public/right-arrow.svg"
+                    src="/public/svg/right-arrow.svg"
                     alt=""
                 />
             </div>
@@ -45,7 +45,7 @@
                 <span class="menu-text">Web</span>
                 <img
                     class="menu-arrow"
-                    src="/public/right-arrow.svg"
+                    src="/public/svg/right-arrow.svg"
                     alt=""
                 />
             </div>
@@ -59,7 +59,7 @@
                 <span class="menu-text">Three.js</span>
                 <img
                     class="menu-arrow"
-                    src="/public/right-arrow.svg"
+                    src="/public/svg/right-arrow.svg"
                     alt=""
                 />
             </div>
@@ -73,7 +73,7 @@
                 <span class="menu-text">WebGL</span>
                 <img
                     class="menu-arrow"
-                    src="/public/right-arrow.svg"
+                    src="/public/svg/right-arrow.svg"
                     alt=""
                 />
             </div>
@@ -87,7 +87,7 @@
                 <span class="menu-text">C++</span>
                 <img
                     class="menu-arrow"
-                    src="/public/right-arrow.svg"
+                    src="/public/svg/right-arrow.svg"
                     alt=""
                 />
             </div>
