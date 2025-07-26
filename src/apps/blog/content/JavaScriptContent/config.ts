@@ -12,28 +12,7 @@ export interface JavaScriptArticle {
 }
 
 // 卡片数据配置
-export const javaScriptArticles: JavaScriptArticle[] = [
-    {
-        id: 1,
-        title: "JavaScript ES6+ 现代特性详解",
-        category: ["JavaScript", "ES6", "Modern"],
-        date: "Jan 12, 2025",
-        description: "深入学习JavaScript ES6+的新特性，提升编程效率",
-        imageClass: "gradient-orange",
-        icon: "🚀",
-        markdownPath: "/md/javascript/1.md",
-    },
-    {
-        id: 2,
-        title: "异步编程：Promise与async/await",
-        category: ["JavaScript", "Async", "Promise"],
-        date: "Jan 11, 2025",
-        description: "掌握JavaScript异步编程的核心概念和最佳实践",
-        imageClass: "gradient-blue",
-        icon: "⚡",
-        markdownPath: "/md/javascript/2.md",
-    },
-];
+export const javaScriptArticles: JavaScriptArticle[] = [];
 
 // 动态加载Markdown内容的工厂函数
 export const loadMarkdownContent = async (

@@ -12,18 +12,7 @@ export interface ThreeJSArticle {
 }
 
 // 卡片数据配置
-export const threeJSArticles: ThreeJSArticle[] = [
-    {
-        id: 1,
-        title: "Three.js 基础入门指南",
-        category: ["Three.js", "WebGL", "3D"],
-        date: "Jan 12, 2025",
-        description: "从零开始学习Three.js，创建你的第一个3D场景",
-        imageClass: "gradient-purple",
-        icon: "🎮",
-        markdownPath: "/md/threejs/1.md",
-    },
-];
+export const threeJSArticles: ThreeJSArticle[] = [];
 
 // 动态加载Markdown内容的工厂函数
 export const loadMarkdownContent = async (

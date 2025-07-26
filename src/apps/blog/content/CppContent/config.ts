@@ -12,18 +12,7 @@ export interface CppArticle {
 }
 
 // 卡片数据配置
-export const cppArticles: CppArticle[] = [
-    {
-        id: 1,
-        title: "C++11/14/17 现代特性指南",
-        category: ["C++", "Modern", "STL"],
-        date: "Jan 14, 2025",
-        description: "掌握现代C++的核心特性，提升代码质量和性能",
-        imageClass: "gradient-slate",
-        icon: "⚡",
-        markdownPath: "/md/cpp/1.md",
-    },
-];
+export const cppArticles: CppArticle[] = [];
 
 // 动态加载Markdown内容的工厂函数
 export const loadMarkdownContent = async (
