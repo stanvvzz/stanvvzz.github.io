@@ -16,7 +16,7 @@
 
 <style lang="less" scoped>
 .home-page {
-    min-height: 100vh;
+    min-height: 100%;
     background: linear-gradient(135deg, #f8fafc 0%, #ffffff 50%, #f1f5f9 100%);
     color: #1f2937;
     display: flex;
@@ -27,8 +27,14 @@
 .center-content {
     text-align: center;
     max-width: 600px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     margin: 0 auto;
     padding: 0 24px;
+    box-sizing: border-box;
 }
 
 .main-title {
