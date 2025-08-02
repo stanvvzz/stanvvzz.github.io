@@ -15,4 +15,7 @@ export default defineConfig({
             "@": new URL("./src", import.meta.url).pathname,
         },
     },
+    build: {
+        outDir: "docs", // 指定输出目录为 docs
+    },
 });
