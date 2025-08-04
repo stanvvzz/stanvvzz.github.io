@@ -432,6 +432,16 @@ onMounted(() => {
             margin: 2rem 0;
             border-radius: 1px;
         }
+
+        :deep(img) {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 2rem auto;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+            background: #f8fafc;
+        }
     }
 }
 
