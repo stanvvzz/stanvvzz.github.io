@@ -33,6 +33,16 @@ export const webGLArticles: WebGLArticle[] = [
         icon: "",
         markdownPath: "/md/webgl/2.md",
     },
+    {
+        id: 3,
+        title: "WebGL简单旋转",
+        category: ["WebGL"],
+        date: "7/23, 2025",
+        description: "简单的WebGL旋转demo",
+        imageClass: "/md/webgl/image/webgl-rotation.png",
+        icon: "",
+        markdownPath: "/md/webgl/3.md",
+    },
 ];
 
 // 动态加载Markdown内容的工厂函数

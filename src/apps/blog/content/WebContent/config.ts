@@ -34,7 +34,7 @@ export const webArticles: WebArticle[] = [
         markdownPath: "/md/web/2.md",
     },
     {
-        id: 2,
+        id: 3,
         title: "canvas刮刮乐效果",
         category: ["Canvas"],
         date: "7/17, 2025",
@@ -42,6 +42,16 @@ export const webArticles: WebArticle[] = [
         imageClass: "/md/web/image/1752760989941.jpg",
         icon: "",
         markdownPath: "/md/web/3.md",
+    },
+    {
+        id: 4,
+        title: "createWebHashHistory和createWebHistory 有什么区别？",
+        category: ["Vue"],
+        date: "8/4, 2025",
+        description: "",
+        imageClass: "/md/web/image/4.png",
+        icon: "",
+        markdownPath: "/md/web/4.md",
     },
 ];
 
@@ -74,4 +84,5 @@ export const navTabs = [
     { id: "css", name: "CSS" },
     { id: "html", name: "HTML" },
     { id: "canvas", name: "Canvas" },
+    { id: "vue", name: "Vue" },
 ];
