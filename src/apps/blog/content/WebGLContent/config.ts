@@ -43,6 +43,16 @@ export const webGLArticles: WebGLArticle[] = [
         icon: "",
         markdownPath: "/md/webgl/3.md",
     },
+    {
+        id: 4,
+        title: "WebGL绘制多线",
+        category: ["WebGL"],
+        date: "8/5, 2025",
+        description: "简单的WebGL绘制多线demo",
+        imageClass: "/md/webgl/image/6.png",
+        icon: "",
+        markdownPath: "/md/webgl/4.md",
+    },
 ];
 
 // 动态加载Markdown内容的工厂函数
