@@ -312,16 +312,25 @@ const markdownContent = ref("");
 const currentPage = ref(1);
 const itemsPerPage = ref(6);
 
-// 根据活动标签过滤文章
+// 根据活动标签过滤文章并按日期排序
 const filteredCards = computed(() => {
+    let filtered;
     if (activeTab.value === "all") {
-        return props.articles;
+        filtered = props.articles;
+    } else {
+        filtered = props.articles.filter((card) =>
+            card.category.some((cat) =>
+                cat.toLowerCase().includes(activeTab.value.toLowerCase())
+            )
+        );
     }
-    return props.articles.filter((card) =>
-        card.category.some((cat) =>
-            cat.toLowerCase().includes(activeTab.value.toLowerCase())
-        )
-    );
+
+    // 按日期从大到小排序
+    return filtered.sort((a, b) => {
+        const dateA = new Date(a.date);
+        const dateB = new Date(b.date);
+        return dateB.getTime() - dateA.getTime();
+    });
 });
 
 // 计算总页数
