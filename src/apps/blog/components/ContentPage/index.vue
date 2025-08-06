@@ -446,7 +446,6 @@ const handleImageError = (event: Event, card: Article) => {
 <style lang="less" scoped>
 .content-page {
     padding: 2rem;
-    max-width: 1400px;
     margin: 0 auto;
     color: #374151;
     background: #ffffff;

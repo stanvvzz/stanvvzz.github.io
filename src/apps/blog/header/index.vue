@@ -1,7 +1,6 @@
 <template>
     <div class="blog-header">
         <div class="logo-container">
-            <!-- Blog 文字 -->
             <div
                 class="blog"
                 :class="{ 'blog-hidden': isScrolled }"
@@ -9,7 +8,6 @@
                 Blog
             </div>
 
-            <!-- 🔥 模仿 OpenAI 的 SVG 实现 -->
             <img
                 src="/svg/blog-icon.svg"
                 alt="Blog Icon"

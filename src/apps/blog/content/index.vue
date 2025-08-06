@@ -41,6 +41,7 @@ const currentContentComponent = computed(() => {
 <style lang="less" scoped>
 .content-container {
     height: 100%;
+    width: 100%;
     overflow-y: auto;
 
     // 隐藏滚动条
