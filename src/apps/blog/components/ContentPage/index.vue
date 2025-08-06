@@ -546,7 +546,7 @@ const handleImageError = (event: Event, card: Article) => {
     gap: 1.5rem;
 
     &.grid {
-        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     }
 
     &.list {
@@ -716,13 +716,13 @@ const handleImageError = (event: Event, card: Article) => {
 }
 
 .card-content {
-    padding: 1.5rem;
+    padding: 1.2rem;
 
     .card-title {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         font-weight: 600;
         color: #111827;
-        margin: 0 0 0.75rem 0;
+        margin: 0 0 0.5rem 0;
         line-height: 1.3;
     }
 
@@ -730,27 +730,27 @@ const handleImageError = (event: Event, card: Article) => {
         display: flex;
         align-items: center;
         gap: 0.75rem;
-        margin-bottom: 0.75rem;
+        margin-bottom: 0.5rem;
 
         .card-category {
             background: rgba(0, 0, 0, 0.1);
             color: #374151;
-            padding: 0.25rem 0.5rem;
+            padding: 0.2rem 0.4rem;
             border-radius: 4px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 500;
         }
 
         .card-date {
             color: #6b7280;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
         }
     }
 
     .card-description {
         color: #6b7280;
-        font-size: 0.9rem;
-        line-height: 1.5;
+        font-size: 0.85rem;
+        line-height: 1.4;
         margin: 0;
     }
 }
