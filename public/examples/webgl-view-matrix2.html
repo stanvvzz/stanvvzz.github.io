@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+        />
+        <title></title>
+        <style>
+            body {
+                margin: 0;
+                overflow: hidden;
+                background-color: #111;
+                color: #fff;
+                font-family: monospace;
+                text-align: center;
+            }
+            canvas {
+                display: block;
+                width: 100vw;
+                height: 100vh;
+            }
+            h1 {
+                position: absolute;
+                top: 10px;
+                width: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <h1></h1>
+        <canvas id="glcanvas"></canvas>
+
+        <script>
+            const canvas = document.getElementById("glcanvas");
+            const gl = canvas.getContext("webgl");
+
+            const vertexShaderSource = `
+            	attribute vec4 aPosition;
+            	uniform mat4 uViewMatrix;
+				uniform mat4 uProjectionMatrix;
+				uniform mat4 uModelMatrix;
+            	void main() {
+            		gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * aPosition;
+            	}
+            `;
+            const fragmentShaderSource = `
+            	void main() {
+            		gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+            	}
+            `;
+
+            const vertexShader = compileShader(
+                gl,
+                vertexShaderSource,
+                gl.VERTEX_SHADER
+            );
+
+            const fragmentShader = compileShader(
+                gl,
+                fragmentShaderSource,
+                gl.FRAGMENT_SHADER
+            );
+
+            const shaderProgram = gl.createProgram();
+            gl.attachShader(shaderProgram, vertexShader);
+            gl.attachShader(shaderProgram, fragmentShader);
+            gl.linkProgram(shaderProgram);
+
+            const programInfo = {
+                program: shaderProgram,
+                attribLocations: {
+                    vertexPosition: gl.getAttribLocation(
+                        shaderProgram,
+                        "aPosition"
+                    ),
+                },
+                uniformLocations: {
+                    projectionMatrix: gl.getUniformLocation(
+                        shaderProgram,
+                        "uProjectionMatrix"
+                    ),
+                    modelMatrix: gl.getUniformLocation(
+                        shaderProgram,
+                        "uModelMatrix"
+                    ),
+                    viewMatrix: gl.getUniformLocation(
+                        shaderProgram,
+                        "uViewMatrix"
+                    ),
+                },
+            };
+
+            const buffers = initBuffers(gl);
+
+            main();
+
+            function main() {
+                let then = 0;
+                function render(now) {
+                    now *= 0.001;
+                    const deltaTime = now - then;
+                    then = now;
+
+                    drawScene(gl, programInfo, buffers, now);
+
+                    requestAnimationFrame(render);
+                }
+                requestAnimationFrame(render);
+            }
+
+            // --------------------工具函数--------------------
+
+            function compileShader(gl, source, type) {
+                const shader = gl.createShader(type);
+                gl.shaderSource(shader, source);
+                gl.compileShader(shader);
+                if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+                    console.error(
+                        "Shader compilation failed:",
+                        gl.getShaderInfoLog(shader)
+                    );
+                    gl.deleteShader(shader);
+                    return null;
+                }
+                return shader;
+            }
+
+            function initBuffers(gl) {
+                const positions = [
+                    // 正面
+                    -1.0,
+                    -1.0,
+                    1.0, // 0: 左下前
+                    1.0,
+                    -1.0,
+                    1.0, // 1: 右下前
+                    1.0,
+                    1.0,
+                    1.0, // 2: 右上前
+                    -1.0,
+                    1.0,
+                    1.0, // 3: 左上前
+
+                    // 背面
+                    -1.0,
+                    -1.0,
+                    -1.0, // 4: 左下后
+                    -1.0,
+                    1.0,
+                    -1.0, // 5: 左上后
+                    1.0,
+                    1.0,
+                    -1.0, // 6: 右上后
+                    1.0,
+                    -1.0,
+                    -1.0, // 7: 右下后
+                ];
+                const positionBuffer = gl.createBuffer();
+                gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+                gl.bufferData(
+                    gl.ARRAY_BUFFER,
+                    new Float32Array(positions),
+                    gl.STATIC_DRAW
+                );
+
+                const indices = [
+                    0, 1, 1, 2, 2, 3, 3, 0, 4, 5, 5, 6, 6, 7, 7, 4, 0, 4, 1, 7,
+                    2, 6, 3, 5,
+                ];
+                const indexBuffer = gl.createBuffer();
+                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+                gl.bufferData(
+                    gl.ELEMENT_ARRAY_BUFFER,
+                    new Uint16Array(indices),
+                    gl.STATIC_DRAW
+                );
+
+                return { position: positionBuffer, indices: indexBuffer };
+            }
+
+            function drawScene(gl, programInfo, buffers, time) {
+                resizeCanvasToDisplaySize(gl.canvas);
+
+                gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+                gl.clearColor(0.1, 0.1, 0.1, 1.0);
+                gl.clearDepth(1.0);
+                gl.enable(gl.DEPTH_TEST);
+                gl.depthFunc(gl.LEQUAL);
+                gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+                // 设置透视投影矩阵
+                const fieldOfView = (60 * Math.PI) / 180;
+                const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
+                const zNear = 0.1;
+                const zFar = 100.0;
+                const projectionMatrix = perspective(
+                    fieldOfView,
+                    aspect,
+                    zNear,
+                    zFar
+                );
+
+                // 模型矩阵
+                const modelMatrix = [
+                    1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1,
+                ];
+
+                // 设置视图矩阵
+                const radius = 6.0;
+                const eyeY = 5.0;
+                const eyeX = Math.sin(time * 0.5) * radius;
+                const eyeZ = Math.cos(time * 0.5) * radius;
+                const eye = [eyeX, eyeY, eyeZ];
+                const center = [0, 0, 0];
+                const up = [0, 1, 0];
+                const viewMatrix = lookAt(eye, center, up);
+
+                gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
+                gl.vertexAttribPointer(
+                    programInfo.attribLocations.vertexPosition,
+                    3,
+                    gl.FLOAT,
+                    false,
+                    0,
+                    0
+                );
+                gl.enableVertexAttribArray(
+                    programInfo.attribLocations.vertexPosition
+                );
+                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffers.indices);
+                gl.useProgram(programInfo.program);
+                gl.uniformMatrix4fv(
+                    programInfo.uniformLocations.projectionMatrix,
+                    false,
+                    projectionMatrix
+                );
+                gl.uniformMatrix4fv(
+                    programInfo.uniformLocations.viewMatrix,
+                    false,
+                    viewMatrix
+                );
+                gl.uniformMatrix4fv(
+                    programInfo.uniformLocations.modelMatrix,
+                    false,
+                    modelMatrix
+                );
+                gl.drawElements(gl.LINES, 24, gl.UNSIGNED_SHORT, 0);
+            }
+
+            function resizeCanvasToDisplaySize(canvas) {
+                // css尺寸
+                const displayWidth = canvas.clientWidth;
+                const displayHeight = canvas.clientHeight;
+
+                if (
+                    canvas.width !== displayWidth ||
+                    canvas.height !== displayHeight
+                ) {
+                    // 像素尺寸
+                    canvas.width = displayWidth;
+                    canvas.height = displayHeight;
+                }
+            }
+
+            function perspective(fov, aspect, zNear, zFar) {
+                const f = 1.0 / Math.tan(fov / 2);
+                const rangeInv = 1.0 / (zNear - zFar);
+                return [
+                    f / aspect,
+                    0,
+                    0,
+                    0,
+                    0,
+                    f,
+                    0,
+                    0,
+                    0,
+                    0,
+                    (zNear + zFar) * rangeInv,
+                    -1,
+                    0,
+                    0,
+                    2 * zNear * zFar * rangeInv,
+                    0,
+                ];
+            }
+
+            // 视图矩阵
+            function subtract(a, b) {
+                return [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
+            }
+
+            function normalize(v) {
+                const l = Math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
+                if (l > 0.00001) {
+                    return [v[0] / l, v[1] / l, v[2] / l];
+                } else {
+                    return [0, 0, 0];
+                }
+            }
+
+            function cross(a, b) {
+                return [
+                    a[1] * b[2] - a[2] * b[1],
+                    a[2] * b[0] - a[0] * b[2],
+                    a[0] * b[1] - a[1] * b[0],
+                ];
+            }
+
+            function dot(a, b) {
+                return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+            }
+
+            function lookAt(eye, center, up) {
+                const d = subtract(eye, center);
+                const dir = normalize(d);
+                const r = cross(up, dir);
+                const right = normalize(r);
+                const u = cross(dir, right);
+                const tx = -dot(right, eye);
+                const ty = -dot(u, eye);
+                const tz = -dot(dir, eye);
+                return [
+                    right[0],
+                    u[0],
+                    dir[0],
+                    0,
+                    right[1],
+                    u[1],
+                    dir[1],
+                    0,
+                    right[2],
+                    u[2],
+                    dir[2],
+                    0,
+                    tx,
+                    ty,
+                    tz,
+                    1,
+                ];
+            }
+        </script>
+    </body>
+</html>

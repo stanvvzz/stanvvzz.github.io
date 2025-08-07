@@ -528,6 +528,83 @@ onMounted(() => {
             overflow: visible;
             vertical-align: baseline;
         }
+
+        // HTML演示容器样式
+        :deep(.demo-container) {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            margin: 2rem 0;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+            .demo-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+                padding: 1rem 1.5rem;
+                border-bottom: 1px solid #e5e7eb;
+
+                .demo-title {
+                    font-size: 1.1rem;
+                    font-weight: 600;
+                    color: #111827;
+                    margin: 0;
+                }
+
+                .demo-actions {
+                    display: flex;
+                    gap: 0.5rem;
+
+                    .demo-btn {
+                        display: flex;
+                        align-items: center;
+                        gap: 0.375rem;
+                        background: #ffffff;
+                        border: 1px solid #d1d5db;
+                        border-radius: 6px;
+                        padding: 0.5rem 0.75rem;
+                        font-size: 0.8rem;
+                        color: #374151;
+                        cursor: pointer;
+                        transition: all 0.2s ease;
+                        font-weight: 500;
+
+                        &:hover {
+                            background: #f9fafb;
+                            border-color: #9ca3af;
+                            transform: translateY(-1px);
+                            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                        }
+
+                        svg {
+                            width: 14px;
+                            height: 14px;
+                        }
+                    }
+                }
+            }
+
+            .demo-content {
+                padding: 1.5rem;
+                background: #ffffff;
+
+                iframe {
+                    width: 100%;
+                    border: none;
+                    border-radius: 8px;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                }
+
+                .demo-preview {
+                    background: #f8fafc;
+                    border: 1px solid #e5e7eb;
+                    border-radius: 8px;
+                    overflow: hidden;
+                }
+            }
+        }
     }
 }
 
@@ -577,6 +654,42 @@ onMounted(() => {
                 font-size: 0.9em;
                 line-height: normal;
                 vertical-align: baseline;
+            }
+
+            // 移动端演示容器样式
+            :deep(.demo-container) {
+                margin: 1rem -1rem;
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+
+                .demo-header {
+                    padding: 0.75rem 1rem;
+
+                    .demo-title {
+                        font-size: 1rem;
+                    }
+
+                    .demo-actions {
+                        .demo-btn {
+                            padding: 0.4rem 0.6rem;
+                            font-size: 0.75rem;
+
+                            svg {
+                                width: 12px;
+                                height: 12px;
+                            }
+                        }
+                    }
+                }
+
+                .demo-content {
+                    padding: 1rem;
+
+                    iframe {
+                        border-radius: 4px;
+                    }
+                }
             }
         }
     }
