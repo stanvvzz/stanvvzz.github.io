@@ -226,8 +226,8 @@
 
         <!-- 详细内容视图 -->
         <div v-else-if="pageMode === 'detail' && selectedCard">
-            <!-- 返回按钮 -->
-            <div class="detail-header">
+            <!-- 吸顶返回按钮 -->
+            <div class="sticky-back-btn">
                 <button
                     class="back-btn"
                     @click="backToList"
@@ -755,7 +755,41 @@ const handleImageError = (event: Event, card: Article) => {
     }
 }
 
-// 详细页面样式
+.sticky-back-btn {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #ffffff;
+    padding: 1rem 0;
+    margin-bottom: 1rem;
+
+    .back-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        background: none;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        color: #6b7280;
+        font-size: 0.9rem;
+        font-weight: 500;
+        cursor: pointer;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+
+        &:hover {
+            color: #111827;
+            border-color: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        svg {
+            width: 16px;
+            height: 16px;
+        }
+    }
+}
+
 .detail-header {
     margin-bottom: 2rem;
 
@@ -965,6 +999,16 @@ const handleImageError = (event: Event, card: Article) => {
         .card-image {
             width: 100%;
             height: 150px;
+        }
+    }
+
+    // 移动端吸顶按钮优化
+    .sticky-back-btn {
+        padding: 0.75rem 0;
+
+        .back-btn {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.85rem;
         }
     }
 }

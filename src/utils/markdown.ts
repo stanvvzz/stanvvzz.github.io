@@ -1,5 +1,7 @@
 import MarkdownIt from "markdown-it";
 import hljs from "highlight.js";
+// @ts-ignore
+import markdownItKatex from "markdown-it-katex";
 
 // 创建 markdown-it 实例
 const md = new MarkdownIt({
@@ -18,6 +20,20 @@ const md = new MarkdownIt({
         }
         return ""; // 使用额外的默认转义
     },
+});
+
+// 添加 KaTeX 插件支持 LaTeX 数学公式
+md.use(markdownItKatex, {
+    throwOnError: false,
+    errorColor: "#cc0000",
+    strict: false,
+    trust: true,
+    delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+        { left: "\\(", right: "\\)", display: false },
+        { left: "\\[", right: "\\]", display: true },
+    ],
 });
 
 // 生成唯一ID

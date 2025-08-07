@@ -53,6 +53,16 @@ export const webGLArticles: WebGLArticle[] = [
         icon: "",
         markdownPath: "/md/webgl/4.md",
     },
+    {
+        id: 5,
+        title: "视图矩阵",
+        category: ["WebGL"],
+        date: "2025-08-07",
+        description: "",
+        imageClass: "/md/webgl/image/5.png",
+        icon: "",
+        markdownPath: "/md/webgl/5.md",
+    },
 ];
 
 // 动态加载Markdown内容的工厂函数

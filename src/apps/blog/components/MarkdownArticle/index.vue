@@ -30,6 +30,7 @@ import { computed, onMounted } from "vue";
 import type { WebArticle } from "../../content/WebContent/config";
 import { renderMarkdown } from "@/utils/markdown";
 import "highlight.js/styles/github.css"; // 引入highlight.js样式
+import "katex/dist/katex.min.css"; // 引入KaTeX样式
 
 interface Props {
     article: WebArticle;
@@ -90,8 +91,7 @@ onMounted(() => {
     display: flex;
     position: relative;
     width: 100%;
-    max-width: 100%;
-    overflow-x: hidden;
+    overflow: hidden;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
         "Oxygen", "Ubuntu", "Cantarell", sans-serif;
 }
@@ -100,7 +100,7 @@ onMounted(() => {
 .article-detail {
     position: relative;
     width: 100%;
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
     padding: 0 2rem;
     box-sizing: border-box;
@@ -153,9 +153,11 @@ onMounted(() => {
 
     .article-body {
         line-height: 1.8;
-        max-width: 100%;
+        width: 100%;
         overflow-wrap: break-word;
         word-wrap: break-word;
+        overflow: hidden;
+        box-sizing: border-box;
 
         // Markdown 渲染的内容样式
         :deep(h1) {
@@ -204,7 +206,7 @@ onMounted(() => {
         :deep(p) {
             color: #374151;
             margin-bottom: 1rem;
-            font-size: 1rem;
+            font-size: 1.1rem;
             line-height: 1.7;
         }
 
@@ -217,6 +219,7 @@ onMounted(() => {
                 color: #374151;
                 margin-bottom: 0.5rem;
                 line-height: 1.6;
+                font-size: 1.05rem;
 
                 strong {
                     color: #111827;
@@ -228,32 +231,16 @@ onMounted(() => {
         :deep(blockquote) {
             border-left: 4px solid #667eea;
             margin: 1.5rem 0;
-            padding: 1.25rem 1.5rem;
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-            border-radius: 0 8px 8px 0;
-            position: relative;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-
-            &::before {
-                content: '"';
-                position: absolute;
-                left: 1rem;
-                top: 0.5rem;
-                font-size: 2.5rem;
-                color: #667eea;
-                opacity: 0.4;
-                font-family: Georgia, serif;
-                font-weight: bold;
-            }
+            padding: 0 1.5rem;
+            background: transparent;
 
             p {
                 margin: 0;
-                color: #4b5563;
-                font-style: italic;
-                padding-left: 1.5rem;
-                font-size: 1.05rem;
-                line-height: 1.6;
-                font-weight: 500;
+                color: #374151;
+                font-style: normal;
+                font-size: 1.1rem;
+                line-height: 1.7;
+                font-weight: normal;
             }
         }
 
@@ -263,12 +250,16 @@ onMounted(() => {
             border-radius: 12px;
             border: 1px solid #e5e7eb;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 100%;
+            box-sizing: border-box;
         }
 
         :deep(.markdown-table) {
             width: 100%;
+            min-width: 500px;
             border-collapse: collapse;
             font-size: 0.9rem;
+            box-sizing: border-box;
 
             th {
                 background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
@@ -321,8 +312,10 @@ onMounted(() => {
             margin: 1.5rem 0;
             overflow: hidden;
             max-width: 100%;
+            width: 100%;
             position: relative;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
 
             .code-header {
                 display: flex;
@@ -380,17 +373,22 @@ onMounted(() => {
                 padding: 1.5rem;
                 overflow-x: auto;
                 max-width: 100%;
+                width: 100%;
                 background: #ffffff;
+                box-sizing: border-box;
 
                 code {
                     font-family: "Fira Code", "JetBrains Mono", "Monaco",
                         "Menlo", monospace;
-                    font-size: 0.9rem;
+                    font-size: 0.95rem;
                     line-height: 1.6;
                     white-space: pre;
                     word-wrap: break-word;
                     overflow-wrap: break-word;
                     display: block;
+                    max-width: 100%;
+                    width: 100%;
+                    box-sizing: border-box;
 
                     // highlight.js 语法高亮样式覆盖
                     &.hljs {
@@ -407,7 +405,7 @@ onMounted(() => {
             padding: 0.25rem 0.5rem;
             border-radius: 6px;
             font-family: "Fira Code", "Monaco", "Menlo", monospace;
-            font-size: 0.85em;
+            font-size: 0.9em;
             font-weight: 500;
             border: 1px solid #e2e8f0;
         }
@@ -442,6 +440,94 @@ onMounted(() => {
             border-radius: 12px;
             background: #f8fafc;
         }
+
+        // KaTeX 数学公式样式
+        :deep(.katex-display) {
+            margin: 1.5rem 0;
+            text-align: center;
+            overflow: visible;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 1rem 0;
+            line-height: normal;
+
+            .katex {
+                font-size: 1.15em;
+                display: inline-block;
+                text-align: center;
+                overflow: visible;
+                line-height: normal;
+                vertical-align: baseline;
+            }
+        }
+
+        :deep(.katex) {
+            font-size: 1.05em;
+            overflow: visible;
+            box-sizing: border-box;
+            line-height: normal;
+            vertical-align: baseline;
+
+            .katex-html {
+                color: #111827;
+                overflow: visible;
+                line-height: normal;
+                vertical-align: baseline;
+            }
+        }
+
+        // 修复下标上标位置
+        :deep(.katex .vlist-t) {
+            vertical-align: baseline;
+        }
+
+        :deep(.katex .vlist-r) {
+            vertical-align: baseline;
+        }
+
+        :deep(.katex .vlist) {
+            vertical-align: baseline;
+        }
+
+        // 数学公式块样式
+        :deep(.math-block) {
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 1.5rem 1rem;
+            margin: 1.5rem 0;
+            overflow: visible;
+            width: 100%;
+            box-sizing: border-box;
+            line-height: normal;
+
+            .katex-display {
+                margin: 0;
+                overflow: visible;
+                padding: 0;
+                line-height: normal;
+            }
+        }
+
+        // 确保公式完整显示
+        :deep(.katex-display .katex) {
+            white-space: nowrap;
+            overflow: visible;
+            min-height: auto;
+            line-height: normal;
+            vertical-align: baseline;
+        }
+
+        // 修复矩阵样式
+        :deep(.katex .mord) {
+            overflow: visible;
+            vertical-align: baseline;
+        }
+
+        :deep(.katex .arraycolsep) {
+            overflow: visible;
+            vertical-align: baseline;
+        }
     }
 }
 
@@ -466,6 +552,31 @@ onMounted(() => {
             :deep(.code-block) {
                 margin: 1rem -1rem;
                 border-radius: 0;
+            }
+
+            // 移动端数学公式样式
+            :deep(.katex-display) {
+                overflow-x: auto;
+                overflow-y: visible;
+                padding: 1rem 0;
+                margin: 1rem -1rem;
+                padding-left: 1rem;
+                padding-right: 1rem;
+                line-height: normal;
+
+                .katex {
+                    font-size: 1em;
+                    min-width: max-content;
+                    white-space: nowrap;
+                    line-height: normal;
+                    vertical-align: baseline;
+                }
+            }
+
+            :deep(.katex) {
+                font-size: 0.9em;
+                line-height: normal;
+                vertical-align: baseline;
             }
         }
     }
