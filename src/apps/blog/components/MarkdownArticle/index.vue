@@ -401,7 +401,7 @@ onMounted(() => {
 
         :deep(code:not(pre code)) {
             background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
-            color: #1e293b;
+            color: rgb(235, 87, 87);
             padding: 0.25rem 0.5rem;
             border-radius: 6px;
             font-family: "Fira Code", "Monaco", "Menlo", monospace;

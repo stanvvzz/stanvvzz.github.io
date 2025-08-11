@@ -12,7 +12,18 @@ export interface JavaScriptArticle {
 }
 
 // 卡片数据配置
-export const javaScriptArticles: JavaScriptArticle[] = [];
+export const javaScriptArticles: JavaScriptArticle[] = [
+    {
+        id: 1,
+        title: "手写reduce",
+        category: ["manual"],
+        date: "2025-07-22",
+        description: "",
+        imageClass: "",
+        icon: "",
+        markdownPath: "/md/javascript/md/1.md",
+    },
+];
 
 // 动态加载Markdown内容的工厂函数
 export const loadMarkdownContent = async (
@@ -36,3 +47,9 @@ export const loadMarkdownContent = async (
 export const getArticleById = (id: number): JavaScriptArticle | undefined => {
     return javaScriptArticles.find((article) => article.id === id);
 };
+
+// 导航标签配置
+export const navTabs = [
+    { id: "all", name: "All" },
+    { id: "manual", name: "Manual" },
+];
