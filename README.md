@@ -1,5 +1,45 @@
-# Vue 3 + TypeScript + Vite
+# Stan 个人博客
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+> 一个基于 Vue 3 + TypeScript + Vite 构建的现代化个人博客系统
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+## 📝 简介
+
+这是 Stan 的个人博客，用于记录和分享技术学习心得、项目实践经验以及各种有趣的技术探索。
+
+博客涵盖多个技术领域：
+- **Web 开发**：Vue.js、JavaScript、CSS、Canvas 等前端技术
+- **3D 图形**：Three.js、WebGL 等图形编程
+- **地理信息**：GIS、地图可视化等相关内容
+- **编程语言**：各种编程语言和框架的学习笔记
+
+## 🙏 致谢
+
+博客中的部分内容和知识来源于互联网上的优秀教程、文档和开源项目。感谢互联网这个伟大的知识共享平台，让我们能够自由地学习和交流技术。
+
+特别感谢所有为开源社区贡献力量的开发者们，正是你们的无私分享让技术世界变得更加美好。
+
+## ⚖️ 版权声明
+
+- 博客中的原创内容遵循开源协议，欢迎学习和交流
+- 部分内容参考或引用了互联网上的公开资料，如有侵权请联系删除
+- 本项目完全开源，代码托管在 GitHub，欢迎 Star 和 Fork
+
+## 🛠️ 技术栈
+
+- **框架**：Vue 3 + TypeScript
+- **构建工具**：Vite
+- **样式**：Less/SCSS
+- **数学公式**：KaTeX
+- **代码高亮**：Highlight.js
+- **Markdown 渲染**：markdown-it
+
+## 📧 联系方式
+
+如有任何问题、建议或侵权问题，请通过以下方式联系：
+
+- GitHub Issues：[提交问题](https://github.com/stanvvzz/stanvvzz.github.io/issues)
+- Email：[您的邮箱地址](zly1241582922@163.com)
+
+## 📄 开源协议
+
+本项目采用 MIT 开源协议。
