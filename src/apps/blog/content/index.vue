@@ -14,7 +14,8 @@ import JavaScriptContent from "./JavaScriptContent/index.vue";
 import WebContent from "./WebContent/index.vue";
 import ThreeJSContent from "./ThreeJSContent/index.vue";
 import WebGLContent from "./WebGLContent/index.vue";
-import CppContent from "./CppContent/index.vue";
+// import CppContent from "./CppContent/index.vue";
+import GeographyContent from "./GeographyContent/index.vue";
 
 const layoutStore = useLayoutStore();
 
@@ -25,7 +26,8 @@ const contentComponents = {
     dalle: WebContent, // Vue
     sora: ThreeJSContent, // Three.js
     api: WebGLContent, // WebGL
-    research: CppContent, // C++
+    // research: CppContent, // C++
+    geo: GeographyContent,
 };
 
 // 计算当前应该显示的组件

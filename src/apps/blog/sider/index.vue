@@ -81,6 +81,20 @@
             <div
                 class="menu-item"
                 :class="{ 'menu-item-loaded': isLoaded }"
+                :style="{ animationDelay: '0.5s' }"
+                @click="handleMenuClick('geo')"
+            >
+                <span class="menu-text">Geography</span>
+                <img
+                    class="menu-arrow"
+                    src="/svg/right-arrow.svg"
+                    alt=""
+                />
+            </div>
+
+            <!-- <div
+                class="menu-item"
+                :class="{ 'menu-item-loaded': isLoaded }"
                 :style="{ animationDelay: '0.6s' }"
                 @click="handleMenuClick('research')"
             >
@@ -90,7 +104,7 @@
                     src="/svg/right-arrow.svg"
                     alt=""
                 />
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
