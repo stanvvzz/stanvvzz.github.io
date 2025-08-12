@@ -1,16 +1,13 @@
 <template>
     <ContentPage
-        :articles="geographyArticle"
+        :articles="mathArticles"
         :loadMarkdownContent="loadMarkdownContent"
-        pageTitle="Geography"
+        pageTitle="Math"
         :navTabs="navTabs"
     />
 </template>
 
 <script setup lang="ts">
 import ContentPage from "../../components/ContentPage/index.vue";
-import { geographyArticle, loadMarkdownContent } from "./config";
-
-// 导航标签配置
-const navTabs = [{ id: "all", name: "All" }];
+import { mathArticles, loadMarkdownContent, navTabs } from "./config";
 </script>

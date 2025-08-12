@@ -143,7 +143,10 @@
                         </div>
                         <div
                             v-else
-                            :class="['card-placeholder', card.imageClass]"
+                            :class="[
+                                'card-placeholder',
+                                getGradientClass(card.id),
+                            ]"
                         >
                             <div class="card-icon">{{ card.icon }}</div>
                         </div>
@@ -425,6 +428,11 @@ const backToList = () => {
 
 // 判断是否为图片路径
 const isImagePath = (imageClass: string): boolean => {
+    // 如果是空字符串，返回false使用渐变色块
+    if (!imageClass || imageClass.trim() === "") {
+        return false;
+    }
+
     // 检查是否为图片文件路径
     const imageExtensions = [".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg"];
     return (
@@ -432,6 +440,30 @@ const isImagePath = (imageClass: string): boolean => {
         imageClass.startsWith("/") ||
         imageClass.startsWith("http")
     );
+};
+
+// 根据卡片ID生成渐变色类名
+const getGradientClass = (cardId: number): string => {
+    const gradientClasses = [
+        "gradient-blue",
+        "gradient-purple",
+        "gradient-green",
+        "gradient-orange",
+        "gradient-red",
+        "gradient-cyan",
+        "gradient-pink",
+        "gradient-yellow",
+        "gradient-teal",
+        "gradient-indigo",
+        "gradient-lime",
+        "gradient-slate",
+        "gradient-zinc",
+        "gradient-stone",
+        "gradient-gray",
+    ];
+
+    // 使用卡片ID取模来选择渐变色，确保同一张卡片总是使用相同的颜色
+    return gradientClasses[cardId % gradientClasses.length];
 };
 
 // 处理图片加载错误

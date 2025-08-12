@@ -92,6 +92,20 @@
                 />
             </div>
 
+            <div
+                class="menu-item"
+                :class="{ 'menu-item-loaded': isLoaded }"
+                :style="{ animationDelay: '0.5s' }"
+                @click="handleMenuClick('math')"
+            >
+                <span class="menu-text">Math</span>
+                <img
+                    class="menu-arrow"
+                    src="/svg/right-arrow.svg"
+                    alt=""
+                />
+            </div>
+
             <!-- <div
                 class="menu-item"
                 :class="{ 'menu-item-loaded': isLoaded }"

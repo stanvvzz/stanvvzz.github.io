@@ -16,6 +16,7 @@ import ThreeJSContent from "./ThreeJSContent/index.vue";
 import WebGLContent from "./WebGLContent/index.vue";
 // import CppContent from "./CppContent/index.vue";
 import GeographyContent from "./GeographyContent/index.vue";
+import MathContent from "./MathContent/index.vue";
 
 const layoutStore = useLayoutStore();
 
@@ -28,6 +29,7 @@ const contentComponents = {
     api: WebGLContent, // WebGL
     // research: CppContent, // C++
     geo: GeographyContent,
+    math: MathContent,
 };
 
 // 计算当前应该显示的组件

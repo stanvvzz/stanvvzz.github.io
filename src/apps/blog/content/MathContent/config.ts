@@ -1,5 +1,5 @@
 // JavaScript内容配置 - 统一管理卡片数据和Markdown文件映射
-export interface JavaScriptArticle {
+export interface MathArticle {
     id: number;
     title: string;
     category: Array<string>;
@@ -12,26 +12,16 @@ export interface JavaScriptArticle {
 }
 
 // 卡片数据配置
-export const javaScriptArticles: JavaScriptArticle[] = [
+export const mathArticles: MathArticle[] = [
     {
         id: 1,
-        title: "手写reduce",
-        category: ["manual"],
-        date: "2025-08-06",
-        description: "",
-        imageClass: "",
-        icon: "",
-        markdownPath: "/md/javascript/1.md",
-    },
-    {
-        id: 2,
-        title: "手写Promise",
+        title: "点乘和叉乘的区别",
         category: ["manual"],
         date: "2025-08-12",
         description: "",
         imageClass: "",
         icon: "",
-        markdownPath: "/md/javascript/2.md",
+        markdownPath: "/md/math/1.md",
     },
 ];
 
@@ -54,8 +44,8 @@ export const loadMarkdownContent = async (
 };
 
 // 根据ID获取文章信息
-export const getArticleById = (id: number): JavaScriptArticle | undefined => {
-    return javaScriptArticles.find((article) => article.id === id);
+export const getArticleById = (id: number): MathArticle | undefined => {
+    return mathArticles.find((article) => article.id === id);
 };
 
 // 导航标签配置
