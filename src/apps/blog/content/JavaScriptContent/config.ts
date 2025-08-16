@@ -33,6 +33,16 @@ export const javaScriptArticles: JavaScriptArticle[] = [
         icon: "",
         markdownPath: "/md/javascript/2.md",
     },
+    {
+        id: 3,
+        title: "函数参数重载",
+        category: ["concepts"],
+        date: "2025-08-16",
+        description: "",
+        imageClass: "",
+        icon: "",
+        markdownPath: "/md/javascript/3.md",
+    },
 ];
 
 // 动态加载Markdown内容的工厂函数
@@ -62,4 +72,5 @@ export const getArticleById = (id: number): JavaScriptArticle | undefined => {
 export const navTabs = [
     { id: "all", name: "All" },
     { id: "manual", name: "Manual" },
+    { id: "concepts", name: "Concepts" },
 ];
